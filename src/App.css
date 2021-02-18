@@ -3,3 +3,8 @@
     margin: 0 auto;
     width: 80%;
 }
+
+.wrapperContent {
+    background-color: palevioletred;
+    flex: 5;
+  }

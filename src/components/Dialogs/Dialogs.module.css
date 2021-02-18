@@ -1,0 +1,22 @@
+.dialogs {
+    display: flex;
+}
+.dialogsItems {
+    flex:2;
+}
+
+.dialogsItems .dialog {
+
+}
+
+.dialogsItems .active {
+    color: gold;
+}
+
+.messages {
+    flex:2;
+}
+
+.messages .message{
+
+}
