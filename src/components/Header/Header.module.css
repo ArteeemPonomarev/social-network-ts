@@ -1,0 +1,10 @@
+header img {
+  width: 70px;
+  height: 70px;
+}
+
+.header {
+  background-color: yellow;
+  width: 80%;
+  margin: 0 auto;
+}

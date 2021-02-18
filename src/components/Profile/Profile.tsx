@@ -1,19 +1,14 @@
 import React from 'react';
+import style from './Profile.module.css';
+import MyPosts from '../MyPosts/MyPosts';
 
 
 const Profile = () => {
     return (
-        <main className="mainContent">
+        <main className={style.mainContent}>
             <img src="https://fotorelax.ru/wp-content/uploads/2016/03/Beautiful-photos-and-pictures-on-various-subjects-01-1024x640.jpg" alt="background picture" />
-          Main content
-            <div>
-                ava+description
-       </div>
-            <div>
-                My Posts
-       </div>
-            <div>post1</div>
-            <div>post2</div>
+            Main content
+            <MyPosts/>
         </main>
     )
 };

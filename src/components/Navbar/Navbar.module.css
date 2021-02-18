@@ -1,0 +1,12 @@
+.nav {
+  background-color: grey;
+  flex: 1;
+}
+.item {
+  display: block;
+  text-decoration: none;
+  color: white;
+}
+.item.active {
+  color: gold;
+}

@@ -1,0 +1,12 @@
+.mainContent {
+  background-color: palevioletred;
+  flex: 5;
+}
+.mainContent img {
+  width: 100%;
+  max-height: 200px;
+}
+
+.item {
+  color:seagreen;
+}
