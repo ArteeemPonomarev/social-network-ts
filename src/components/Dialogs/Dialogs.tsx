@@ -2,26 +2,30 @@ import React from 'react';
 import style from './Dialogs.module.css';
 import {DialogItem} from './DialogItem/DialogItem';
 import {Message} from './Message/Message';
-import {DialogContentType, MessageContentType} from '../../redux/state';
+import {DialogsPageType} from '../../redux/state';
 
 type DialogsPropsType = {
-    dialogs: Array<DialogContentType>
-    messages: Array<MessageContentType>
-    addPost: (postText: string) => void
+    dialogsPage: DialogsPageType
+    addDialogMessage: (DialogMessageText: string) => void
+    onNewDialogMessageChange: (e: any) => void
 }
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    let messagesElements = props.messages.map(m => <Message message={m.message} id={m.id}/>)
+    const dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    const messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
 
-    let newMessageElement = React.createRef<HTMLTextAreaElement>();
+    const newMessageElement = React.createRef<HTMLTextAreaElement>();
 
-    let addMessage = () => {
-        let message = newMessageElement.current?.value;
+    const addMessage = () => {
+        const message = newMessageElement.current?.value;
         if (message) {
-            props.addPost(message);
+            props.addDialogMessage(message);
         }
+    };
+
+    const onDialogMessageChange = (e: any) => {
+        props.onNewDialogMessageChange(e.currentTarget.value);
     }
 
     return (
@@ -31,7 +35,11 @@ const Dialogs = (props: DialogsPropsType) => {
             </div>
             <div className={style.messages}>
                 {messagesElements}
-                <textarea ref={newMessageElement}></textarea>
+                <textarea onChange={onDialogMessageChange}
+                          ref={newMessageElement}
+                          value={props.dialogsPage.newDialogMessageText}>
+                    Enter message
+                </textarea>
                 <div>
                     <button onClick={addMessage}>Add Message</button>
                 </div>

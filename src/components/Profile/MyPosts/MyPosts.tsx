@@ -6,6 +6,8 @@ import {PostsContentType} from '../../../redux/state';
 type MyPostsPropsType = {
     posts: Array<PostsContentType>
     addPost: (postText: string) => void
+    newPostValue: string
+    onChangePostValue: (newText: string) => void
 }
 
 const MyPosts = (props: MyPostsPropsType) => {
@@ -17,16 +19,18 @@ const MyPosts = (props: MyPostsPropsType) => {
     const addPost = () => {
         let text = newPostElement.current?.value;
         if (text) {
-            debugger
             props.addPost(text);
         }
     }
 
+    const onPostChange = (e: any) => {
+        props.onChangePostValue(e.currentTarget.value)
+    }
     return (
         <div className={style.postsBlock}>
             My Posts
             <div>
-                <textarea ref={newPostElement}></textarea>
+                <textarea onChange={onPostChange} value={props.newPostValue} ref={newPostElement}></textarea>
             </div>
             <div>
                 <button onClick={addPost}>Add post</button>
