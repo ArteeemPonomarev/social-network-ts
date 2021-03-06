@@ -1,11 +1,12 @@
 import React from 'react';
 import style from './Header.module.css';
+import logo from '../../logos/header_logo.png';
 
 
 const Header = () => {
   return (
     <header className={style.header}>
-        <img src="https://seafood-tip.com/uploads/2019/04/logo-30x30.png" alt="logo" />
+        <img src={logo} alt="logo" />
       </header>
   )
 };

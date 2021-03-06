@@ -1,30 +1,27 @@
 import React from 'react';
 import style from './Dialogs.module.css';
+import {DialogItem} from './DialogItem/DialogItem';
+import {Message} from './Message/Message';
+import {DialogContentType, MessageContentType} from '../../redux/state';
 
-const Dialogs = () => {
+type DialogsPropsType = {
+    dialogs: Array<DialogContentType>
+    messages: Array<MessageContentType>
+}
+
+const Dialogs = (props: DialogsPropsType) => {
+
+
+    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    let messagesElements = props.messages.map(m => <Message message={m.message} id={m.id}/>)
+
     return (
         <div className={style.dialogs}>
             <div className={style.dialogsItems}>
-                <div className={style.dialog + ' ' + style.active}>
-                    Artem
-                </div>
-                <div className={style.dialog }>
-                    Valera
-                </div>
-                <div className={style.dialog}>
-                    Nikita
-                </div>
-                <div className={style.dialog}>
-                    Sasha
-                </div>
-                <div className={style.dialog}>
-                    Lesha
-                </div>
+                {dialogsElements}
             </div>
             <div className={style.messages}>
-                <div className={style.message}>Hi</div>
-                <div className={style.message}>How are your studies?</div>
-                <div className={style.message}>Yeeeah</div>
+                {messagesElements}
             </div>
         </div>
     )
