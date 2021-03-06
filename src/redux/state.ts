@@ -1,4 +1,6 @@
-import {rerenderEntireTree} from '../render';
+let rerenderEntireTree = () => {
+    console.log('State was changed');
+}
 
 export type DialogContentType = {
     id: number
@@ -68,7 +70,7 @@ export const addPost = (postText: string) => {
     };
     state.profilePage.posts.push(newPost);
     state.profilePage.newPostValue = '';
-    rerenderEntireTree(state);
+    rerenderEntireTree();
 }
 
 export const addDialogMessage = (DialogMessageText: string) => {
@@ -79,14 +81,18 @@ export const addDialogMessage = (DialogMessageText: string) => {
     };
     state.dialogsPage.messages.push(newDialogMessage);
     state.dialogsPage.newDialogMessageText='';
-    rerenderEntireTree(state);
+    rerenderEntireTree();
 }
 
 export const onChangePostValue = (newValue: string) => {
     state.profilePage.newPostValue = newValue;
-    rerenderEntireTree(state);
+    rerenderEntireTree();
 }
 export const onNewDialogMessageChange = (newValue: string) => {
     state.dialogsPage.newDialogMessageText = newValue;
-    rerenderEntireTree(state);
+    rerenderEntireTree();
+}
+
+export const subscribe = (observer: () => void) => {
+    rerenderEntireTree = observer;
 }

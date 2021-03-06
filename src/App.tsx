@@ -15,7 +15,7 @@ type AppPropsType = {
   state: RootStateType
   addPost: (postText: string) => void
   addDialogMessage: (DialogMessageText: string) => void
-  onNewDialogMessageChange: (e: any) => void
+  onNewDialogMessageChange: (newText: string) => void
   onChangePostValue: (newText: string) => void
 }
 
