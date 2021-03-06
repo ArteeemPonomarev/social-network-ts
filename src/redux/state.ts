@@ -53,3 +53,13 @@ export const state: RootStateType = {
         ]
     }
 }
+
+export const addPost = (postText: string) => {
+    debugger
+    const newPost: PostsContentType = {
+        id: new Date().getTime(),
+        message: postText,
+        likesCount: 0
+    };
+    state.profilePage.posts.push(newPost);
+}
