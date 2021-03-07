@@ -6,7 +6,7 @@ import {DialogsPageType} from '../../redux/state';
 
 type DialogsPropsType = {
     dialogsPage: DialogsPageType
-    addDialogMessage: (DialogMessageText: string) => void
+    addDialogMessage: () => void
     onNewDialogMessageChange: (newText: string) => void
 }
 
@@ -16,7 +16,7 @@ const Dialogs = (props: DialogsPropsType) => {
     const messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
 
     const addMessage = () => {
-        props.addDialogMessage(props.dialogsPage.newDialogMessageText);
+        props.addDialogMessage();
     };
 
     const onDialogMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

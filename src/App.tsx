@@ -13,8 +13,8 @@ import {RootStateType} from './redux/state';
 
 type AppPropsType = {
   state: RootStateType
-  addPost: (postText: string) => void
-  addDialogMessage: (DialogMessageText: string) => void
+  addPost: () => void
+  addDialogMessage: () => void
   onNewDialogMessageChange: (newText: string) => void
   onChangePostValue: (newText: string) => void
 }

@@ -1,6 +1,4 @@
-let rerenderEntireTree = () => {
-    console.log('State was changed');
-}
+
 
 export type DialogContentType = {
     id: number
@@ -33,66 +31,80 @@ export type RootStateType = {
     profilePage: ProfilePageType
 }
 
-export const state: RootStateType = {
+type StoreType = {
+    _state: RootStateType
+    getState: () => RootStateType
+    addPost: () => void
+    addDialogMessage: () => void
+    onChangePostValue: (newValue: string) => void
+    onNewDialogMessageChange: (newValue: string) => void
+    subscribe: (observer: () => void) => void
+    _callSubscriber: () => void
+}
+export let store: StoreType = {
+    _state: {
+        dialogsPage: {
+            newDialogMessageText: '',
+            dialogs: [
+                {id: 1, name: 'Artem'},
+                {id: 2, name: 'Valera'},
+                {id: 3, name: 'Nikita'},
+                {id: 4, name: 'Sasha'},
+                {id: 5, name: 'Lesha'}
+            ],
 
-    dialogsPage: {
-        newDialogMessageText :'',
-        dialogs: [
-            {id: 1, name: 'Artem'},
-            {id: 2, name: 'Valera'},
-            {id: 3, name: 'Nikita'},
-            {id: 4, name: 'Sasha'},
-            {id: 5, name: 'Lesha'}
-        ],
+            messages: [
+                {id: 1, message: 'Hi'},
+                {id: 2, message: 'How is your succes?'},
+                {id: 3, message: 'Yeeeah'}
+            ],
+        },
 
-        messages: [
-            {id: 1, message: 'Hi'},
-            {id: 2, message: 'How is your succes?'},
-            {id: 3, message: 'Yeeeah'}
-        ],
+        profilePage: {
+            posts: [
+                {id: 1, message: 'Hi, how are you?', likesCount: 12},
+                {id: 2, message: 'It is my first post', likesCount: 11},
+                {id: 3, message: 'Dadadad', likesCount: 3}
+            ],
+            newPostValue: 'it-kamasutra',
+        }
     },
-
-    profilePage: {
-        posts: [
-            {id: 1, message: 'Hi, how are you?', likesCount: 12},
-            {id: 2, message: 'It is my first post', likesCount: 11},
-            {id: 3, message: 'Dadadad', likesCount: 3}
-        ],
-        newPostValue: 'it-kamasutra',
-    }
+    getState() {
+        return this._state
+    },
+    _callSubscriber() {
+        console.log('State was changed');
+    },
+    addPost() {
+        const newPost: PostsContentType = {
+            id: new Date().getTime(),
+            message: this._state.profilePage.newPostValue,
+            likesCount: 0
+        };
+        this._state.profilePage.posts.push(newPost);
+        this._state.profilePage.newPostValue = '';
+        this._callSubscriber();
+    },
+    addDialogMessage() {
+        const newDialogMessage = {
+            id: new Date().getTime(),
+            message: this._state.dialogsPage.newDialogMessageText
+        };
+        this._state.dialogsPage.messages.push(newDialogMessage);
+        this._state.dialogsPage.newDialogMessageText = '';
+        this._callSubscriber();
+    },
+    onChangePostValue(newValue) {
+        this._state.profilePage.newPostValue = newValue;
+        this._callSubscriber();
+    },
+    onNewDialogMessageChange(newValue) {
+        this._state.dialogsPage.newDialogMessageText = newValue;
+        this._callSubscriber();
+    },
+    subscribe(observer) {
+        this._callSubscriber = observer;
+    },
 }
 
-export const addPost = (postText: string) => {
-    const newPost: PostsContentType = {
-        id: new Date().getTime(),
-        message: postText,
-        likesCount: 0
-    };
-    state.profilePage.posts.push(newPost);
-    state.profilePage.newPostValue = '';
-    rerenderEntireTree();
-}
 
-export const addDialogMessage = (DialogMessageText: string) => {
-    debugger
-    const newDialogMessage = {
-        id: new Date().getTime(),
-        message: DialogMessageText,
-    };
-    state.dialogsPage.messages.push(newDialogMessage);
-    state.dialogsPage.newDialogMessageText='';
-    rerenderEntireTree();
-}
-
-export const onChangePostValue = (newValue: string) => {
-    state.profilePage.newPostValue = newValue;
-    rerenderEntireTree();
-}
-export const onNewDialogMessageChange = (newValue: string) => {
-    state.dialogsPage.newDialogMessageText = newValue;
-    rerenderEntireTree();
-}
-
-export const subscribe = (observer: () => void) => {
-    rerenderEntireTree = observer;
-}

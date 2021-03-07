@@ -5,7 +5,7 @@ import {PostsContentType} from '../../../redux/state';
 
 type MyPostsPropsType = {
     posts: Array<PostsContentType>
-    addPost: (postText: string) => void
+    addPost: () => void
     newPostValue: string
     onChangePostValue: (newText: string) => void
 }
@@ -15,7 +15,7 @@ const MyPosts = (props: MyPostsPropsType) => {
     let postsElements = props.posts.map(p => <Post message={p.message} likecount={p.likesCount} id={p.id}/>);
 
     const addPost = () => {
-            props.addPost(props.newPostValue);
+            props.addPost();
     };
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
