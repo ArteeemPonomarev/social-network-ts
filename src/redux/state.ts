@@ -1,3 +1,8 @@
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const UPDATE_NEW_DIALOG_VALUE = 'UPDATE-NEW-DIALOG-VALUE';
+const ADD_DIALOG_MESSAGE = 'ADD-DIALOG-MESSAGE';
+
 export type DialogContentType = {
     id: number
     name: string
@@ -19,6 +24,7 @@ export type DialogsPageType = {
     dialogs: Array<DialogContentType>
     messages: Array<MessageContentType>
 };
+
 export type ProfilePageType = {
     posts: Array<PostsContentType>
     newPostValue: string
@@ -126,7 +132,7 @@ export let store: StoreType = {
         this._callSubscriber = observer;
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
+        if (action.type === ADD_POST) {
             const newPost: PostsContentType = {
                 id: new Date().getTime(),
                 message: this._state.profilePage.newPostValue,
@@ -135,10 +141,10 @@ export let store: StoreType = {
             this._state.profilePage.posts.push(newPost);
             this._state.profilePage.newPostValue = '';
             this._callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._state.profilePage.newPostValue = action.newValue;
             this._callSubscriber();
-        } else if (action.type === 'ADD-DIALOG-MESSAGE') {
+        } else if (action.type === ADD_DIALOG_MESSAGE) {
             const newDialogMessage = {
                 id: new Date().getTime(),
                 message: this._state.dialogsPage.newDialogMessageText
@@ -146,11 +152,37 @@ export let store: StoreType = {
             this._state.dialogsPage.messages.push(newDialogMessage);
             this._state.dialogsPage.newDialogMessageText = '';
             this._callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-DIALOG-VALUE') {
+        } else if (action.type === UPDATE_NEW_DIALOG_VALUE) {
             this._state.dialogsPage.newDialogMessageText = action.newValue;
             this._callSubscriber();
         }
     }
-}
+};
 
+export const addMessageActionCreator = (): ActionsTypes => {
+    return {
+        type: 'ADD-DIALOG-MESSAGE'
+    };
+};
+
+export const onDialogMessageChangeActionCreator = (newValue: string): ActionsTypes => {
+    return {
+        type: 'UPDATE-NEW-DIALOG-VALUE',
+        newValue
+    };
+};
+
+
+export const addPostActionCreator = (): ActionsTypes => {
+    return {
+        type:'ADD-POST'
+    };
+};
+
+export const onPostCahngeActionCreator = (newValue: string): ActionsTypes => {
+    return {
+        type: 'UPDATE-NEW-POST-TEXT',
+        newValue
+    };
+};
 
