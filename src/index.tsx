@@ -9,10 +9,7 @@ let rerenderEntireTree = () => {
     ReactDOM.render(
         <React.StrictMode>
             <App state={store.getState()}
-                 addPost={store.addPost}
-                 addDialogMessage={store.addDialogMessage}
-                 onNewDialogMessageChange={store.onNewDialogMessageChange}
-                 onChangePostValue={store.onChangePostValue}/>
+                 dispatch={store.dispatch.bind(store)}/>
         </React.StrictMode>,
         document.getElementById('root')
     );
