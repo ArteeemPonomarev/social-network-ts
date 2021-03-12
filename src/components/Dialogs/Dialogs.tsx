@@ -3,33 +3,28 @@ import style from './Dialogs.module.css';
 import {DialogItem} from './DialogItem/DialogItem';
 import {Message} from './Message/Message';
 import {
-    ActionsTypes,
-    addMessageActionCreator,
-    DialogsPageType,
-    onDialogMessageChangeActionCreator
+    ActionsTypes, addMessageAC,
+    DialogsPageType, onDialogMessageChangeAC,
 } from '../../redux/state';
 
 type DialogsPropsType = {
     dialogsPage: DialogsPageType
-    // addDialogMessage: () => void
-    // onNewDialogMessageChange: (newText: string) => void
     dispatch: (action: ActionsTypes) => void
-}
-
+};
 
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    const dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    const messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
+    const dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
+    const messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>);
 
     const addMessage = () => {
-        props.dispatch(addMessageActionCreator());
+        props.dispatch(addMessageAC());
     };
 
     const onDialogMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(onDialogMessageChangeActionCreator(e.currentTarget.value));
-    }
+        props.dispatch(onDialogMessageChangeAC(e.currentTarget.value));
+    };
 
     return (
         <div className={style.dialogs}>
@@ -48,6 +43,6 @@ const Dialogs = (props: DialogsPropsType) => {
             </div>
         </div>
     )
-}
+};
 
 export default Dialogs;

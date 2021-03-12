@@ -13,12 +13,8 @@ import {ActionsTypes, RootStateType} from './redux/state';
 
 type AppPropsType = {
   state: RootStateType
-  // addPost: () => void
-  // addDialogMessage: () => void
-  // onNewDialogMessageChange: (newText: string) => void
-  // onChangePostValue: (newText: string) => void
   dispatch: (action: ActionsTypes) => void
-}
+};
 
 const App = (props: AppPropsType) => {
   return (
@@ -38,7 +34,7 @@ const App = (props: AppPropsType) => {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 
 export default App;

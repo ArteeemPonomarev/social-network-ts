@@ -41,31 +41,9 @@ type StoreType = {
     subscribe: (observer: () => void) => void
     _callSubscriber: () => void
     dispatch: (action: ActionsTypes) => void
-    // addPost: () => void
-    // addDialogMessage: () => void
-    // onChangePostValue: (newValue: string) => void
-    // onNewDialogMessageChange: (newValue: string) => void
 };
 
-export type AddPostActionType = {
-    type: 'ADD-POST'
-};
-
-export type UpdateNewPostValueActionType = {
-    type: 'UPDATE-NEW-POST-TEXT',
-    newValue: string
-};
-
-export type AddDialogMessageActionType = {
-    type: 'ADD-DIALOG-MESSAGE'
-};
-
-export type UpdateNewDialogValueActionType = {
-    type: 'UPDATE-NEW-DIALOG-VALUE',
-    newValue: string
-};
-
-export type ActionsTypes = AddPostActionType | UpdateNewPostValueActionType | AddDialogMessageActionType | UpdateNewDialogValueActionType;
+export type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof onDialogMessageChangeAC> | ReturnType<typeof addMessageAC> | ReturnType<typeof onPostCahngeAC>;
 
 export let store: StoreType = {
     _state: {
@@ -101,33 +79,6 @@ export let store: StoreType = {
     _callSubscriber() {
         console.log('State was changed');
     },
-    // addPost() {
-    //     const newPost: PostsContentType = {
-    //         id: new Date().getTime(),
-    //         message: this._state.profilePage.newPostValue,
-    //         likesCount: 0
-    //     };
-    //     this._state.profilePage.posts.push(newPost);
-    //     this._state.profilePage.newPostValue = '';
-    //     this._callSubscriber();
-    // },
-    // onChangePostValue(newValue) {
-    //     this._state.profilePage.newPostValue = newValue;
-    //     this._callSubscriber();
-    // },
-    // addDialogMessage() {
-    //     const newDialogMessage = {
-    //         id: new Date().getTime(),
-    //         message: this._state.dialogsPage.newDialogMessageText
-    //     };
-    //     this._state.dialogsPage.messages.push(newDialogMessage);
-    //     this._state.dialogsPage.newDialogMessageText = '';
-    //     this._callSubscriber();
-    // },
-    // onNewDialogMessageChange(newValue) {
-    //     this._state.dialogsPage.newDialogMessageText = newValue;
-    //     this._callSubscriber();
-    // },
     subscribe(observer) {
         this._callSubscriber = observer;
     },
@@ -159,30 +110,29 @@ export let store: StoreType = {
     }
 };
 
-export const addMessageActionCreator = (): ActionsTypes => {
+export const addMessageAC = () => {
     return {
         type: 'ADD-DIALOG-MESSAGE'
-    };
+    } as const;
 };
 
-export const onDialogMessageChangeActionCreator = (newValue: string): ActionsTypes => {
+export const onDialogMessageChangeAC = (newValue: string) => {
     return {
         type: 'UPDATE-NEW-DIALOG-VALUE',
         newValue
-    };
+    } as const;
 };
 
-
-export const addPostActionCreator = (): ActionsTypes => {
+export const addPostAC = () => {
     return {
         type:'ADD-POST'
-    };
+    } as const;
 };
 
-export const onPostCahngeActionCreator = (newValue: string): ActionsTypes => {
+export const onPostCahngeAC = (newValue: string) => {
     return {
         type: 'UPDATE-NEW-POST-TEXT',
         newValue
-    };
+    } as const;
 };
 
