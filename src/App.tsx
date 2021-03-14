@@ -8,11 +8,12 @@ import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import {ActionsTypes, RootStateType} from './redux/state';
+import {ActionsTypes} from './redux/redux-store';
+import {AppStateType} from './redux/redux-store';
 
 
 type AppPropsType = {
-  state: RootStateType
+  state: AppStateType
   dispatch: (action: ActionsTypes) => void
 };
 
