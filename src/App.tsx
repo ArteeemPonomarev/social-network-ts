@@ -12,12 +12,12 @@ import {ActionsTypes} from './redux/redux-store';
 import {AppStateType} from './redux/redux-store';
 
 
-type AppPropsType = {
-  state: AppStateType
-  dispatch: (action: ActionsTypes) => void
-};
+// type AppPropsType = {
+//   state: AppStateType
+//   dispatch: (action: ActionsTypes) => void
+// };
 
-const App = (props: AppPropsType) => {
+const App = () => {
   return (
     <BrowserRouter>
       <div>
@@ -26,7 +26,7 @@ const App = (props: AppPropsType) => {
           <Navbar />
           <div className="wrapperContent">
             <Route path='/dialogs' render={() => <DialogsContainer />} />
-            <Route path='/profile' render={() => <Profile profilePage={props.state.profilePage} dispatch={props.dispatch} />} />
+            <Route path='/profile' render={() => <Profile />} />
             <Route path='/music' render={() => <Music/>} />
             <Route path='/news' render={() => <News/>} />
             <Route path='/settings' render={() => <Settings/>} />
