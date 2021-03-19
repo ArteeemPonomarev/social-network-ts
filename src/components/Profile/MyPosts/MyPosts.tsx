@@ -7,7 +7,8 @@ import {addPostAC, onPostCahngeAC, PostsContentType} from '../../../redux/profil
 type MyPostsPropsType = {
     posts: Array<PostsContentType>
     newPostValue: string
-    dispatch: (action: ActionsTypes) => void
+    addPostContainer: () => void
+    onPostChangeContainer: (text: string) => void
 };
 
 
@@ -16,11 +17,11 @@ const MyPosts = (props: MyPostsPropsType) => {
     let postsElements = props.posts.map(p => <Post message={p.message} likecount={p.likesCount} id={p.id}/>);
 
     const addPost = () => {
-        props.dispatch(addPostAC());
+        props.addPostContainer();
     };
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(onPostCahngeAC(e.currentTarget.value));
+        props.onPostChangeContainer(e.currentTarget.value);
     };
     return (
         <div className={style.postsBlock}>

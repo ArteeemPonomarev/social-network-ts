@@ -1,9 +1,10 @@
 import React from 'react';
 import style from './Profile.module.css';
-import MyPosts from './MyPosts/MyPosts';
+import MyPostsContainer from './MyPosts/MyPostsContainer';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import {ActionsTypes} from '../../redux/redux-store';
 import {ProfilePageType} from '../../redux/profile-reducer';
+import store from '../../redux/redux-store';
 
 type ProfilePropsType = {
     profilePage: ProfilePageType
@@ -14,9 +15,9 @@ const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={props.profilePage.posts}
+            <MyPostsContainer posts={props.profilePage.posts}
                      newPostValue={props.profilePage.newPostValue}
-                     dispatch={props.dispatch}/>
+                     store={store}/>
         </div>
     )
 };
