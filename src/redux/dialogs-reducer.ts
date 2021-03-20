@@ -4,22 +4,18 @@ const UPDATE_NEW_DIALOG_VALUE = 'UPDATE-NEW-DIALOG-VALUE';
 const ADD_DIALOG_MESSAGE = 'ADD-DIALOG-MESSAGE';
 
 
-export type DialogContentType = {
+type DialogContentType = {
     id: number
     name: string
 };
 
-export type MessageContentType = {
+type MessageContentType = {
     id: number
     message: string
 };
-export type DialogsPageType = {
-    newDialogMessageText: string
-    dialogs: Array<DialogContentType>
-    messages: Array<MessageContentType>
-};
 
-const initialState: DialogsPageType = {
+
+const initialState = {
     newDialogMessageText: '',
     dialogs: [
         {id: 1, name: 'Artem'},
@@ -27,14 +23,17 @@ const initialState: DialogsPageType = {
         {id: 3, name: 'Nikita'},
         {id: 4, name: 'Sasha'},
         {id: 5, name: 'Lesha'}
-    ],
+    ] as Array<DialogContentType>,
 
     messages: [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How is your succes?'},
         {id: 3, message: 'Yeeeah'}
-    ],
-}
+    ] as Array<MessageContentType>,
+};
+
+export type DialogsPageType = typeof initialState;
+
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsTypes): DialogsPageType => {
     switch (action.type) {

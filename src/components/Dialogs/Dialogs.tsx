@@ -7,8 +7,8 @@ import {DialogsPageType} from '../../redux/dialogs-reducer';
 
 type DialogsPropsType = {
     dialogsPage: DialogsPageType
-    addMessageContainer: () => void
-    onDialogContainerMessageChange: (text: string) => void
+    addMessage: () => void
+    onDialogMessageChange: (text: string) => void
 };
 
 
@@ -18,11 +18,11 @@ const Dialogs = (props: DialogsPropsType) => {
     const messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>);
 
     const addMessage = () => {
-        props.addMessageContainer();
+        props.addMessage();
     };
 
     const onDialogMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onDialogContainerMessageChange(e.currentTarget.value);
+        props.onDialogMessageChange(e.currentTarget.value);
     };
 
     return (

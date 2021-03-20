@@ -8,14 +8,6 @@ import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import {ActionsTypes} from './redux/redux-store';
-import {AppStateType} from './redux/redux-store';
-
-
-// type AppPropsType = {
-//   state: AppStateType
-//   dispatch: (action: ActionsTypes) => void
-// };
 
 const App = () => {
   return (

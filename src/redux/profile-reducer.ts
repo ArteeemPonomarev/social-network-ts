@@ -9,19 +9,17 @@ export type PostsContentType = {
     likesCount: number
 };
 
-export type ProfilePageType = {
-    posts: Array<PostsContentType>
-    newPostValue: string
-};
 
-let initialState: ProfilePageType = {
+let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
         {id: 2, message: 'It is my first post', likesCount: 11},
         {id: 3, message: 'Dadadad', likesCount: 3}
-    ],
-    newPostValue: 'it-kamasutra',
-}
+    ] as Array<PostsContentType>,
+    newPostValue: '',
+};
+
+export type ProfilePageType = typeof initialState;
 
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {

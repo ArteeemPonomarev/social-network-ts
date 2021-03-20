@@ -1,15 +1,8 @@
 import React, {ChangeEvent} from 'react';
 import style from './MyPosts.module.css';
 import Post from './Post/Post';
-import {ActionsTypes} from '../../../redux/redux-store';
-import {addPostAC, onPostCahngeAC, PostsContentType} from '../../../redux/profile-reducer';
+import {MyPostsPropsType} from './MyPostsContainer';
 
-type MyPostsPropsType = {
-    posts: Array<PostsContentType>
-    newPostValue: string
-    addPostContainer: () => void
-    onPostChangeContainer: (text: string) => void
-};
 
 
 const MyPosts = (props: MyPostsPropsType) => {
@@ -17,11 +10,11 @@ const MyPosts = (props: MyPostsPropsType) => {
     let postsElements = props.posts.map(p => <Post message={p.message} likecount={p.likesCount} id={p.id}/>);
 
     const addPost = () => {
-        props.addPostContainer();
+        props.addPost();
     };
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onPostChangeContainer(e.currentTarget.value);
+        props.onPostChange(e.currentTarget.value);
     };
     return (
         <div className={style.postsBlock}>
