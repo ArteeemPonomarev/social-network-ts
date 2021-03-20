@@ -10,9 +10,11 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 
 const App = () => {
+  console.log('App render')
   return (
     <BrowserRouter>
       <div>
+
         <Header />
         <div className="wrapper">
           <Navbar />
