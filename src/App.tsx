@@ -8,6 +8,7 @@ import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
+import UsersContainer from './components/Users/UsersContainer';
 
 const App = () => {
   console.log('App render')
@@ -24,6 +25,7 @@ const App = () => {
             <Route path='/music' render={() => <Music/>} />
             <Route path='/news' render={() => <News/>} />
             <Route path='/settings' render={() => <Settings/>} />
+            <Route path='/users' render={() => <UsersContainer/>}/>
           </div>
         </div>
       </div>

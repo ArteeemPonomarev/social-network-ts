@@ -5,6 +5,8 @@ import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 
 const Profile = () => {
+    console.log('Profile rendered');
+
     return (
         <div>
             <ProfileInfo/>
