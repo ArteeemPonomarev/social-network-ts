@@ -28,10 +28,16 @@ export type UserType = {
 
 export type UsersPageType = {
     users: Array<UserType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 };
 
 const initialState: UsersPageType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 21,
+    currentPage: 2
 };
 
 
