@@ -1,19 +1,16 @@
 import React from 'react';
-import {MapDispatchPropsType, MapStatePropsType, UsersPropsType} from './UsersContainer';
+import {UsersPropsType} from './UsersContainer';
 import style from './Users.module.css'
 import axios from 'axios';
-import {UserType} from '../../redux/usersReducer';
-//import style from './Users.module.css';
 
-type PropsType = MapStatePropsType & MapDispatchPropsType;
 
-class UsersC extends React.Component<MapStatePropsType & MapDispatchPropsType> {
+class UsersC extends React.Component<UsersPropsType> {
 
-    constructor(props: PropsType) {
-        super(props)
+    componentDidMount(): void {
         axios.get('https://social-network.samuraijs.com/api/1.0/users')
             .then(response => this.props.setUsers(response.data.items))
-        }
+    }
+
 
     render() {
       return(
