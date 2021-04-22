@@ -1,22 +1,43 @@
 import React from 'react';
-import {UsersPropsType} from './UsersContainer';
+import {UsersContainerPropsType} from './UsersContainer';
 import style from './Users.module.css'
-import axios from 'axios';
 import {UserType} from '../../redux/usersReducer';
 
+type UsersPropsType = {
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    users: Array<UserType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    setCurrentPage: (pageNumber: number) => void
+
+}
 
 const Users = (props: UsersPropsType) => {
 
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
-    const getUsers = () => {
-        if (props.users.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => props.setUsers(response.data.items))
-        }
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
 
     return (
         <div>
-            <button onClick={getUsers}>get Users</button>
+            <div>
+                {pages.map(p => {
+                    return (
+                        <span
+                            style={{cursor: 'pointer'}}
+                            onClick={() => props.setCurrentPage(p)}
+                            className={props.currentPage === p ? style.selectedPage : ''}>
+                    {p}
+                </span>
+                    )
+                })
+                }
+            </div>
             {
                 props.users.map(u => {
                     return (
@@ -46,34 +67,8 @@ const Users = (props: UsersPropsType) => {
                 })
             }
         </div>
-    );
-};
+    )
+}
+
 
 export default Users;
-
-// [
-//     {
-//         id: 1,
-//         photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Dmitry_Nagiev_2017_4.jpg/411px-Dmitry_Nagiev_2017_4.jpg',
-//         followed: false,
-//         fullName: 'Dmitry',
-//         status: 'I am a boss',
-//         location: {city: 'Minsk', country: 'Belarus'}
-//     },
-//     {
-//         id: 2,
-//         photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Dmitry_Nagiev_2017_4.jpg/411px-Dmitry_Nagiev_2017_4.jpg',
-//         followed: false,
-//         fullName: 'Artem',
-//         status: 'I am not a boss ',
-//         location: {city: 'Minsk', country: 'Belarus'}
-//     },
-//     {
-//         id: 3,
-//         photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Dmitry_Nagiev_2017_4.jpg/411px-Dmitry_Nagiev_2017_4.jpg',
-//         followed: false,
-//         fullName: 'Nikita',
-//         status: 'I am a boss too',
-//         location: {city: 'Minsk', country: 'Belarus'}
-//     },
-// ]
