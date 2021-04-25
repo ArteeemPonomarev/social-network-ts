@@ -44,7 +44,7 @@ const Users = (props: UsersPropsType) => {
                         <div key={u.id}>
                             <div>
                                 <img className={style.img}
-                                     src={u.photos.small || 'https://upload.wikimedia.org/wikipedia/commons/8/88/Dmitry_Nagiev_2017_4.jpg'}
+                                     src={u.photos.small || 'https://img.icons8.com/bubbles/2x/user-male.png'}
                                      alt="Dim"/>
                             </div>
                             <div>

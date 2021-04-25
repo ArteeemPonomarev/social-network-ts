@@ -5,6 +5,7 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET-USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 type PhotosType = {
     small: null | string
@@ -25,13 +26,15 @@ export type UsersPageType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 };
 
 const initialState: UsersPageType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 21,
-    currentPage: 2
+    currentPage: 2,
+    isFetching: false
 };
 
 
@@ -73,6 +76,11 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
                 ...state,
                 totalUsersCount: action.totalCount
             }
+        case TOGGLE_IS_FETCHING:
+                return {
+                    ...state,
+                    isFetching: action.isFetching
+                }
         default:
             return state;
     }
@@ -135,5 +143,17 @@ export const setTotalUsersCountAC = (totalCount: number): SetTotalUsersCountACTy
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalCount
+    }
+}
+
+export type SetIsFetchingACType = {
+    type: typeof TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
+
+export const setIsFetchingAC = (isFetching: boolean): SetIsFetchingACType => {
+    return {
+        type: TOGGLE_IS_FETCHING,
+        isFetching
     }
 }

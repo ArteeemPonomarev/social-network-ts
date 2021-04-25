@@ -7,7 +7,8 @@ import {
     SetTotalUsersCountACType,
     SetUsersACType,
     UnfollowACType,
-    usersReducer
+    usersReducer,
+    SetIsFetchingACType
 } from './usersReducer';
 
 
@@ -25,7 +26,7 @@ type RootReducerType = typeof rootReducer;
 export type AppStateType = ReturnType<RootReducerType>
 
 
-export type ActionsTypes = AddPostACType | UpdatePostTextACType | AddMessageACType | UpdateDialogTextACType | FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType;
+export type ActionsTypes = AddPostACType | UpdatePostTextACType | AddMessageACType | UpdateDialogTextACType | FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType | SetIsFetchingACType;
 
 export default store;
 
