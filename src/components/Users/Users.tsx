@@ -2,6 +2,7 @@ import React from 'react';
 import {UsersContainerPropsType} from './UsersContainer';
 import style from './Users.module.css'
 import {UserType} from '../../redux/usersReducer';
+import { NavLink } from 'react-router-dom';
 
 type UsersPropsType = {
     follow: (id: number) => void
@@ -28,7 +29,7 @@ const Users = (props: UsersPropsType) => {
             <div>
                 {pages.map(p => {
                     return (
-                        <span
+                        <span key={p}
                             style={{cursor: 'pointer'}}
                             onClick={() => props.setCurrentPage(p)}
                             className={props.currentPage === p ? style.selectedPage : ''}>
@@ -43,9 +44,11 @@ const Users = (props: UsersPropsType) => {
                     return (
                         <div key={u.id}>
                             <div>
+                                <NavLink to={`/profile/${u.id}`}>
                                 <img className={style.img}
                                      src={u.photos.small || 'https://img.icons8.com/bubbles/2x/user-male.png'}
                                      alt="Dim"/>
+                                     </NavLink>
                             </div>
                             <div>
                                 {

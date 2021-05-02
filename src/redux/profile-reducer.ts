@@ -1,7 +1,8 @@
-import {ActionsTypes} from './redux-store';
+import { ActionsTypes } from './redux-store';
 
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 export type PostsContentType = {
     id: number
@@ -9,14 +10,39 @@ export type PostsContentType = {
     likesCount: number
 };
 
+type ContactsType = {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
+}
+type PhotosType = {
+    small: string | null
+    large: string | null
+}
+
+export type ProfileType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+}
+
 
 let initialState = {
     posts: [
-        {id: 1, message: 'Hi, how are you?', likesCount: 12},
-        {id: 2, message: 'It is my first post', likesCount: 11},
-        {id: 3, message: 'Dadadad', likesCount: 3}
+        { id: 1, message: 'Hi, how are you?', likesCount: 12 },
+        { id: 2, message: 'It is my first post', likesCount: 11 },
+        { id: 3, message: 'Dadadad', likesCount: 3 }
     ] as Array<PostsContentType>,
     newPostValue: '',
+    profile: null as ProfileType | null
 };
 
 export type ProfilePageType = typeof initialState;
@@ -37,7 +63,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 newPostValue: ''
             };
         case UPDATE_NEW_POST_TEXT:
-            return {...state, newPostValue: action.newValue};
+            return { ...state, newPostValue: action.newValue };
+        case SET_USER_PROFILE:
+            return {
+                ...state,
+                profile: action.profile
+            }
         default:
             return state;
     }
@@ -64,3 +95,16 @@ export const onPostCahngeAC = (newValue: string): UpdatePostTextACType => {
         newValue
     } as const;
 };
+
+export type SetUserProfileTypeAC = {
+    type: typeof SET_USER_PROFILE,
+    profile: ProfileType
+}
+
+
+export const setUserProfile = (profile: ProfileType): SetUserProfileTypeAC => {
+    return {
+        type: SET_USER_PROFILE,
+        profile
+    } as const;
+}

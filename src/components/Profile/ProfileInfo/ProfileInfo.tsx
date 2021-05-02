@@ -1,14 +1,26 @@
 import React from 'react';
 import style from './ProfileInfo.module.css';
+import Preloader from './../../common/Pleloader/Preloader'
+import { ProfileType } from '../../../redux/profile-reducer';
 
+type ProfileInfoPropsType = {
+    profile: ProfileType | null
+}
 
+const ProfileInfo = (props: ProfileInfoPropsType) => {
+    if (!props.profile) {
+        return (
 
-const ProfileInfo = () => {
+            <Preloader/> 
+       )
+    }
+
     return (
         <div className={style.profileInfo}>
-            <img src="https://fotorelax.ru/wp-content/uploads/2016/03/Beautiful-photos-and-pictures-on-various-subjects-01-1024x640.jpg" alt="background picture" />
+            <img className={style.backgroundImage} src="https://fotorelax.ru/wp-content/uploads/2016/03/Beautiful-photos-and-pictures-on-various-subjects-01-1024x640.jpg" alt="background" />
             <div className={style.descriptionBlock}>
-                ava+decription
+                <img className={style.userAvatar} src={props.profile.photos.large || 'https://img.icons8.com/bubbles/2x/user-male.png'} alt="user"/>
+                ava+description
             </div>
         </div>
     )

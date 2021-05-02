@@ -91,7 +91,7 @@ export type FollowACType = {
     id: number
 }
 
-export const followAC = (id: number): FollowACType => {
+export const follow = (id: number): FollowACType => {
     return {
         type: FOLLOW,
         id
@@ -103,7 +103,7 @@ export type UnfollowACType = {
     id: number
 }
 
-export const unfollowAC = (id: number): UnfollowACType => {
+export const unfollow = (id: number): UnfollowACType => {
     return {
         type: UNFOLLOW,
         id
@@ -115,7 +115,7 @@ export type SetUsersACType = {
     users: Array<UserType>
 }
 
-export const setUsersAc = (users: Array<UserType>): SetUsersACType => {
+export const setUsers = (users: Array<UserType>): SetUsersACType => {
     return {
         type: SET_USERS,
         users
@@ -127,7 +127,7 @@ export type SetCurrentPageACType = {
     currentPage: number
 }
 
-export const setCurrentPageAC = (currentPage: number): SetCurrentPageACType => {
+export const setCurrentPage = (currentPage: number): SetCurrentPageACType => {
     return {
         type: SET_CURRENT_PAGE,
         currentPage
@@ -139,7 +139,7 @@ export type SetTotalUsersCountACType = {
         totalCount: number
 }
 
-export const setTotalUsersCountAC = (totalCount: number): SetTotalUsersCountACType => {
+export const setTotalUsersCount = (totalCount: number): SetTotalUsersCountACType => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalCount
@@ -151,7 +151,7 @@ export type SetIsFetchingACType = {
     isFetching: boolean
 }
 
-export const setIsFetchingAC = (isFetching: boolean): SetIsFetchingACType => {
+export const toggleIsFetching = (isFetching: boolean): SetIsFetchingACType => {
     return {
         type: TOGGLE_IS_FETCHING,
         isFetching

@@ -3,9 +3,9 @@ import loader from './../../../assets/images/loader.svg';
 
 const Preloader = () => {
     return (
-        <>
-            <img src={loader}/> 
-        </>
+        <div>
+            <img src={loader} alt="loader"/> 
+        </div>
     )
 }
 
