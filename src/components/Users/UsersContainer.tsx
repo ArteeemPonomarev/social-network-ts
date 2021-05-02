@@ -1,7 +1,7 @@
 import React from 'react';
 import Users from './Users';
-import { connect } from 'react-redux';
-import { AppStateType } from '../../redux/redux-store';
+import {connect} from 'react-redux';
+import {AppStateType} from '../../redux/redux-store';
 import {
     follow,
     setCurrentPage,
@@ -36,7 +36,10 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
 
     componentDidMount(): void {
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+            {
+                withCredentials: true
+            })
             .then(response => {
                 this.props.toggleIsFetching(false)
                 this.props.setTotalUsersCount(response.data.totalCount)
@@ -48,7 +51,10 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
     onSetCurrentPageHandler(pageNumber: number) {
         this.props.toggleIsFetching(true);
         this.props.setCurrentPage(pageNumber)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
+            {
+                withCredentials: true
+            })
             .then(response => {
                 this.props.toggleIsFetching(false);
                 this.props.setUsers(response.data.items)
@@ -60,10 +66,10 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
 
         return (
             <>
-            {
-            this.props.isFetching 
-                ? <Preloader />
-                : null}
+                {
+                    this.props.isFetching
+                        ? <Preloader/>
+                        : null}
                 <Users
                     users={this.props.users}
                     pageSize={this.props.pageSize}
@@ -71,8 +77,8 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
                     currentPage={this.props.currentPage}
                     follow={this.props.follow}
                     unfollow={this.props.unfollow}
-                    setCurrentPage={this.onSetCurrentPageHandler.bind(this)} />
-            
+                    setCurrentPage={this.onSetCurrentPageHandler.bind(this)}/>
+
             </>
         )
     }
@@ -90,7 +96,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 };
 
 
-export default connect(mapStateToProps,{
+export default connect(mapStateToProps, {
     follow,
     unfollow,
     setUsers,
