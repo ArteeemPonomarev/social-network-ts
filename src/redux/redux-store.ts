@@ -8,7 +8,7 @@ import {
     SetUsersACType,
     UnfollowACType,
     usersReducer,
-    SetIsFetchingACType
+    SetIsFetchingACType, SetFollowingProgressACType
 } from './usersReducer';
 import {authReducer, SetUserDataType} from './auth-reducer';
 
@@ -39,7 +39,8 @@ export type ActionsTypes = AddPostACType
     | SetTotalUsersCountACType
     | SetIsFetchingACType
     | SetUserProfileTypeAC
-    | SetUserDataType;
+    | SetUserDataType
+    | SetFollowingProgressACType;
 
 //@ts-ignore
 window.store = store

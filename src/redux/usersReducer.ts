@@ -6,6 +6,7 @@ const SET_USERS = 'SET-USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
 type PhotosType = {
     small: null | string
@@ -27,6 +28,7 @@ export type UsersPageType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: Array<number>
 };
 
 const initialState: UsersPageType = {
@@ -34,7 +36,8 @@ const initialState: UsersPageType = {
     pageSize: 5,
     totalUsersCount: 21,
     currentPage: 2,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 };
 
 
@@ -81,6 +84,13 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
                     ...state,
                     isFetching: action.isFetching
                 }
+        case TOGGLE_IS_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId)
+            }
         default:
             return state;
     }
@@ -143,7 +153,7 @@ export const setTotalUsersCount = (totalCount: number): SetTotalUsersCountACType
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalCount
-    }
+    } as const;
 }
 
 export type SetIsFetchingACType = {
@@ -155,5 +165,18 @@ export const toggleIsFetching = (isFetching: boolean): SetIsFetchingACType => {
     return {
         type: TOGGLE_IS_FETCHING,
         isFetching
-    }
+    } as const;
+}
+
+export type SetFollowingProgressACType = {
+    type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
+    isFetching: boolean
+    userId: number
+}
+export const toggleFollowingProgress = (isFetching: boolean, userId: number): SetFollowingProgressACType => {
+    return {
+        type: TOGGLE_IS_FOLLOWING_PROGRESS,
+        userId,
+        isFetching
+    } as const;
 }
