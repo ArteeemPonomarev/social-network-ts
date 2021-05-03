@@ -9,6 +9,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
+import Login from './components/Login/Login';
 
 const App = () => {
   console.log('App render')
@@ -20,6 +21,7 @@ const App = () => {
         <div className="wrapper">
           <Navbar />
           <div className="wrapperContent">
+            <Route path='/login' render={() => <Login/>} />
             <Route path='/dialogs' render={() => <DialogsContainer />} />
             <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
             <Route path='/music' render={() => <Music/>} />
