@@ -37,29 +37,3 @@ const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
 
 export default DialogsContainer;
 
-// const DialogsContainer = () => {
-//
-//     return (
-//         <StoreContext.Consumer>
-//             {
-//             (store) => {
-//                 let state = store.getState();
-//
-//                 const addMessage = () => {
-//                     store.dispatch(addMessageAC());
-//                 };
-//
-//                 const onDialogMessageChange = (text: string) => {
-//                     store.dispatch(onDialogMessageChangeAC(text));
-//                 };
-//
-//                 return (
-//                     <Dialogs dialogsPage={state.dialogsPage}
-//                              addMessageContainer={addMessage}
-//                              onDialogContainerMessageChange={onDialogMessageChange}/>
-//                 )
-//             }
-//         }
-//         </StoreContext.Consumer>
-//     )
-// };

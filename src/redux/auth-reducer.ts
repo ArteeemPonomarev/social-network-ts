@@ -1,4 +1,5 @@
-import {ActionsTypes} from './redux-store';
+import {ActionsTypes, AppThunk} from './redux-store';
+import {authApi} from '../api/api';
 
 
 const SET_AUTH_USER_DATA = 'SET-USER_DATA';
@@ -48,5 +49,17 @@ export const setAuthUserData = (userId: number, email: string, login: string): S
             userId,
             email
         }
+    }
+}
+
+export const authMe = (): AppThunk => {
+    return (dispatch) => {
+        authApi.authMe()
+            .then(response => {
+                if (response.resultCode === 0) {
+                    let {id, login, email} = response.data;
+                    dispatch(setAuthUserData(id, email, login));
+                }
+            })
     }
 }
