@@ -47,4 +47,4 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 }
 
 
-export default withAuthRedirect(connect(mapStateToProps,{getUserProfile})(withRouter(ProfileContainer)));
+export default connect(mapStateToProps,{getUserProfile})(withAuthRedirect(withRouter(ProfileContainer)));
