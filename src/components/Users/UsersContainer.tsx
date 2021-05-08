@@ -10,6 +10,7 @@ import {
     toggleFollowingProgress, getUsers, followUser, unfollowUser
 } from '../../redux/usersReducer';
 import Preloader from '../common/Pleloader/Preloader';
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 
 
 export type MapStatePropsType = {
@@ -89,4 +90,4 @@ export default connect(mapStateToProps, {
     getUsers,
     followUser,
     unfollowUser
-})(UsersContainerComponent);
+})(withAuthRedirect(UsersContainerComponent));
