@@ -1,5 +1,11 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {AddPostACType, profileReducer, UpdatePostTextACType, SetUserProfileTypeAC} from './profile-reducer';
+import {
+    AddPostACType,
+    profileReducer,
+    UpdatePostTextACType,
+    SetUserProfileTypeAC,
+    SetStatusACType
+} from './profile-reducer';
 import {AddMessageACType, dialogsReducer, UpdateDialogTextACType} from './dialogs-reducer';
 import {usersReducer, UsersActionTypes} from './usersReducer';
 import {authReducer, SetUserDataType} from './auth-reducer';
@@ -27,7 +33,8 @@ export type ActionsTypes =  UsersActionTypes
     | AddMessageACType
     | UpdateDialogTextACType
     | SetUserProfileTypeAC
-    | SetUserDataType;
+    | SetUserDataType
+    | SetStatusACType;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsTypes>;
 

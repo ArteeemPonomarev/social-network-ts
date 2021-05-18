@@ -1,21 +1,33 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
+import styles from './ProfileInfo.module.css'
 
 type ProfileStatusPropsType = {
-    status: string
+    status: string | null
+    updateUserStatus: (status: string) => void
 }
 
 export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
 
     state = {
-        editMode: false
+        editMode: false,
+        status: this.props.status
     }
 
-    activateEditMode()  {
+    activateEditMode = () =>   {
         this.setState({editMode: true})
     }
 
-    deactivateEditMode()  {
+    deactivateEditMode = () =>  {
         this.setState({editMode: false})
+        if (this.state.status !== null) {
+            this.props.updateUserStatus(this.state.status)
+        }
+    }
+
+    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            status: e.currentTarget.value
+        })
     }
 
     render() {
@@ -23,12 +35,12 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
             <div>
                 {!this.state.editMode &&
                 <div>
-                    <span onDoubleClick={this.activateEditMode.bind(this)}>{this.props.status}</span>
+                    <span  onDoubleClick={this.activateEditMode}>{this.props.status || 'Type your status...'}</span>
                 </div>
                 }
                 {this.state.editMode &&
                 <div>
-                    <input autoFocus onBlur={this.deactivateEditMode.bind(this)} value={this.props.status}/>
+                    <input onChange={this.onStatusChange} autoFocus onBlur={this.deactivateEditMode} value={this.state.status === null ? '' : this.state.status}/>
                 </div>
                 }
             </div>
