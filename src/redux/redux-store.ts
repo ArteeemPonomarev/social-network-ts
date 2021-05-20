@@ -10,13 +10,15 @@ import {AddMessageACType, dialogsReducer, UpdateDialogTextACType} from './dialog
 import {usersReducer, UsersActionTypes} from './usersReducer';
 import {authReducer, SetUserDataType} from './auth-reducer';
 import thunkMiddleware, {ThunkAction} from 'redux-thunk';
+import {reducer as formReducer} from 'redux-form';
 
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 });
 
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
