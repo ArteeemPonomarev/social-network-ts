@@ -1,6 +1,5 @@
 import {ActionsTypes} from './redux-store';
 
-const UPDATE_NEW_DIALOG_VALUE = 'UPDATE-NEW-DIALOG-VALUE';
 const ADD_DIALOG_MESSAGE = 'ADD-DIALOG-MESSAGE';
 
 
@@ -16,7 +15,6 @@ type MessageContentType = {
 
 
 const initialState = {
-    newDialogMessageText: '',
     dialogs: [
         {id: 1, name: 'Artem'},
         {id: 2, name: 'Valera'},
@@ -40,34 +38,21 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
         case ADD_DIALOG_MESSAGE:
             const newDialogMessage = {
                 id: new Date().getTime(),
-                message: state.newDialogMessageText
+                message: action.newMessageBody
             };
-            return {...state, newDialogMessageText: '', messages: [...state.messages, newDialogMessage]};
-        case UPDATE_NEW_DIALOG_VALUE:
-            return {...state, newDialogMessageText: action.newValue};
+            return {...state, messages: [...state.messages, newDialogMessage]};
         default:
             return state;
     }
 };
 
-export type AddMessageACType = {
-    type: typeof ADD_DIALOG_MESSAGE
-}
 
-export const addMessageAC = (): AddMessageACType => {
+
+export const addMessageAC = (newMessageBody: string) => {
     return {
-        type: ADD_DIALOG_MESSAGE
+        type: ADD_DIALOG_MESSAGE,
+        newMessageBody
     } as const;
 };
 
-export type UpdateDialogTextACType = {
-    type: typeof UPDATE_NEW_DIALOG_VALUE
-    newValue: string
-}
-
-export const onDialogMessageChangeAC = (newValue: string): UpdateDialogTextACType => {
-    return {
-        type: UPDATE_NEW_DIALOG_VALUE,
-        newValue
-    } as const;
-};
+export type AddMessageACType = ReturnType<typeof addMessageAC>

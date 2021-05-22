@@ -2,11 +2,10 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {
     AddPostACType,
     profileReducer,
-    UpdatePostTextACType,
     SetUserProfileTypeAC,
     SetStatusACType
 } from './profile-reducer';
-import {AddMessageACType, dialogsReducer, UpdateDialogTextACType} from './dialogs-reducer';
+import {AddMessageACType, dialogsReducer} from './dialogs-reducer';
 import {usersReducer, UsersActionTypes} from './usersReducer';
 import {authReducer, SetUserDataType} from './auth-reducer';
 import thunkMiddleware, {ThunkAction} from 'redux-thunk';
@@ -31,9 +30,7 @@ export type AppStateType = ReturnType<RootReducerType>
 
 export type ActionsTypes =  UsersActionTypes
     | AddPostACType
-    | UpdatePostTextACType
     | AddMessageACType
-    | UpdateDialogTextACType
     | SetUserProfileTypeAC
     | SetUserDataType
     | SetStatusACType;

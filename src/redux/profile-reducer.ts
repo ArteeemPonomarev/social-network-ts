@@ -2,7 +2,6 @@ import {ActionsTypes, AppThunk} from './redux-store';
 import {profileAPI} from '../api/api';
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_STATUS = 'SET_USER_STATUS';
 
@@ -43,7 +42,6 @@ let initialState = {
         { id: 2, message: 'It is my first post', likesCount: 11 },
         { id: 3, message: 'Dadadad', likesCount: 3 }
     ] as Array<PostsContentType>,
-    newPostValue: '',
     profile: null as ProfileType | null,
     status: null as string | null
 };
@@ -56,17 +54,14 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case ADD_POST:
             const newPost: PostsContentType = {
                 id: new Date().getTime(),
-                message: state.newPostValue,
+                message: action.newPostText,
                 likesCount: 0
             };
 
             return {
                 ...state,
                 posts: [...state.posts, newPost],
-                newPostValue: ''
             };
-        case UPDATE_NEW_POST_TEXT:
-            return { ...state, newPostValue: action.newValue };
         case SET_USER_PROFILE:
             return {
                 ...state,
@@ -82,27 +77,16 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
     }
 };
 
-export type AddPostACType = {
-    type: typeof ADD_POST
-}
 
-export const addPostAC = (): AddPostACType => {
+
+export const addPostAC = (newPostText: string) => {
     return {
-        type: ADD_POST
+        type: ADD_POST,
+        newPostText
     } as const;
 };
+export type AddPostACType = ReturnType<typeof addPostAC>
 
-export type UpdatePostTextACType = {
-    type: typeof UPDATE_NEW_POST_TEXT
-    newValue: string
-}
-
-export const onPostCahngeAC = (newValue: string): UpdatePostTextACType => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newValue
-    } as const;
-};
 
 export type SetUserProfileTypeAC = {
     type: typeof SET_USER_PROFILE,
