@@ -58,7 +58,7 @@ export const login = (email: string, password: string, rememberMe = false): AppT
         authApi.login(email, password, rememberMe)
             .then(response => {
                 if (response.resultCode === 0) {
-                    dispatch(authMe)
+                    dispatch(authMe())
                 }
             })
     }
