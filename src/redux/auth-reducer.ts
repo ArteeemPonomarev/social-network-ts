@@ -1,5 +1,6 @@
-import {ActionsTypes, AppThunk} from './redux-store';
+import {AppThunk} from './redux-store';
 import {authApi} from '../api/api';
+import {stopSubmit} from 'redux-form';
 
 
 const SET_AUTH_USER_DATA = 'SET-USER_DATA';
@@ -20,7 +21,7 @@ const initialState: AuthDataType = {
 };
 
 
-export const authReducer = (state: AuthDataType = initialState, action: ActionsTypes): AuthDataType => {
+export const authReducer = (state: AuthDataType = initialState, action: AuthActionsTypes): AuthDataType => {
     switch (action.type) {
         case SET_AUTH_USER_DATA:
             return {
@@ -39,8 +40,9 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
         payload: { login, userId, email, isAuth }
     } as const
 }
+export type AuthActionsTypes = ReturnType<typeof setAuthUserData> | ReturnType<typeof stopSubmit>
 
-export type SetUserDataType = ReturnType<typeof setAuthUserData>
+
 
 export const authMe = (): AppThunk => {
     return (dispatch) => {
@@ -54,16 +56,18 @@ export const authMe = (): AppThunk => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe = false): AppThunk => {
-    return (dispatch) => {
-        authApi.login(email, password, rememberMe)
+export const login = (email: string, password: string, rememberMe = false): AppThunk => (dispatch) => {
+
+    return        authApi.login(email, password, rememberMe)
             .then(response => {
                 if (response.resultCode === 0) {
                     dispatch(authMe())
+                } else {
+
                 }
             })
     }
-}
+
 
 export const logout = (): AppThunk => {
     return (dispatch) => {

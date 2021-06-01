@@ -1,4 +1,4 @@
-import {ActionsTypes, AppThunk} from './redux-store';
+import {AppThunk} from './redux-store';
 import {profileAPI} from '../api/api';
 
 const ADD_POST = 'ADD-POST';
@@ -49,7 +49,7 @@ let initialState = {
 export type ProfilePageType = typeof initialState;
 
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ProfileActionsType): ProfilePageType => {
     switch (action.type) {
         case ADD_POST:
             const newPost: PostsContentType = {
@@ -85,16 +85,8 @@ export const addPostAC = (newPostText: string) => {
         newPostText
     } as const;
 };
-export type AddPostACType = ReturnType<typeof addPostAC>
 
-
-export type SetUserProfileTypeAC = {
-    type: typeof SET_USER_PROFILE,
-    profile: ProfileType
-}
-
-
-export const setUserProfile = (profile: ProfileType): SetUserProfileTypeAC => {
+export const setUserProfile = (profile: ProfileType) => {
     return {
         type: SET_USER_PROFILE,
         profile
@@ -108,8 +100,12 @@ export const setUserStatus = (status: string) => {
     } as const;
 }
 
-export type SetStatusACType = ReturnType<typeof setUserStatus>
 
+export type ProfileActionsType = ReturnType<typeof setUserStatus>
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof addPostAC>
+
+//Thunks
 export const getUserProfile = (userId: number): AppThunk => {
     return (dispatch) => {
         profileAPI.getUserProfile(userId)

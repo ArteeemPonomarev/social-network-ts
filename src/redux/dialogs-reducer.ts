@@ -33,7 +33,7 @@ const initialState = {
 export type DialogsPageType = typeof initialState;
 
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsTypes): DialogsPageType => {
+export const dialogsReducer = (state: DialogsPageType = initialState, action: DialogsActionsTypes): DialogsPageType => {
     switch (action.type) {
         case ADD_DIALOG_MESSAGE:
             const newDialogMessage = {
@@ -47,7 +47,6 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
 };
 
 
-
 export const addMessageAC = (newMessageBody: string) => {
     return {
         type: ADD_DIALOG_MESSAGE,
@@ -55,4 +54,4 @@ export const addMessageAC = (newMessageBody: string) => {
     } as const;
 };
 
-export type AddMessageACType = ReturnType<typeof addMessageAC>
+export type DialogsActionsTypes =  ReturnType<typeof addMessageAC>
