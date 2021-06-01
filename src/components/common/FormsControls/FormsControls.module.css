@@ -7,3 +7,9 @@
     color: red;
     font-weight: 600;
 }
+
+.formSummaryError {
+    border: 1px solid red;
+    padding: 5px;
+    color: red;
+}

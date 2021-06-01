@@ -1,5 +1,3 @@
-import {ActionsTypes} from './redux-store';
-
 const ADD_DIALOG_MESSAGE = 'ADD-DIALOG-MESSAGE';
 
 
@@ -12,7 +10,6 @@ type MessageContentType = {
     id: number
     message: string
 };
-
 
 const initialState = {
     dialogs: [
@@ -31,7 +28,6 @@ const initialState = {
 };
 
 export type DialogsPageType = typeof initialState;
-
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: DialogsActionsTypes): DialogsPageType => {
     switch (action.type) {

@@ -4,8 +4,9 @@ import {Input} from '../common/FormsControls/FormsControls';
 import {required} from '../../utils/validators/validators';
 import {connect} from 'react-redux';
 import {login} from '../../redux/auth-reducer';
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
+import styles from './../common/FormsControls/FormsControls.module.css'
 
 type LoginFormDataType = {
     email: string
@@ -29,14 +30,18 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={Input} name={"email"} validate={[required]} placeholder={"Email"}/>
+                <Field component={Input} name={'email'} validate={[required]} placeholder={'Email'}/>
             </div>
             <div>
-                <Field component={Input} name={"password"} validate={[required]} placeholder={"Password"} type={"password"}/>
+                <Field component={Input} name={'password'} validate={[required]} placeholder={'Password'}
+                       type={'password'}/>
             </div>
             <div>
-                <Field component={Input} name={"rememberMe"} type="checkbox"/> remember me
+                <Field component={Input} name={'rememberMe'} type="checkbox"/> remember me
             </div>
+
+            {props.error && <div  className={styles.formSummaryError}>{props.error}</div>}
+
             <div>
                 <button>Login</button>
             </div>
@@ -72,4 +77,4 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps,{login})(Login);
+export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {login})(Login);
