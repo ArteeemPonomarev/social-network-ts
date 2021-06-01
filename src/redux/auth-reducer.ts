@@ -25,21 +25,22 @@ export const authReducer = (state: AuthDataType = initialState, action: ActionsT
         case SET_AUTH_USER_DATA:
             return {
                 ...state,
-                ...action.payload,
-                isAuth: true
+                ...action.payload
             }
         default:
             return state;
     }
 };
 
-export type SetUserDataType = ReturnType<typeof setAuthUserData>
+
 export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
         type: SET_AUTH_USER_DATA,
         payload: { login, userId, email, isAuth }
     } as const
 }
+
+export type SetUserDataType = ReturnType<typeof setAuthUserData>
 
 export const authMe = (): AppThunk => {
     return (dispatch) => {
