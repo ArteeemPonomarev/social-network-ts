@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -33,7 +32,7 @@ export const profileAPI = {
         return instance.get(`profile/status/${userId}`)
     },
     updateStatus(status: string) {
-        return instance.put(`profile/status`,{status})
+        return instance.put(`profile/status`, {status})
     }
 }
 
@@ -43,7 +42,7 @@ export const authApi = {
             .then(response => response.data)
     },
     login(email: string, password: string, rememberMe: boolean) {
-        return instance.post(`auth/login`,{password, email, rememberMe})
+        return instance.post(`auth/login`, {password, email, rememberMe})
             .then(response => response.data)
     },
     logout() {

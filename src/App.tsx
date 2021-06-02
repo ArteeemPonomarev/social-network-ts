@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
@@ -10,9 +10,25 @@ import './App.css';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
+import {useDispatch, useSelector} from 'react-redux';
+import {initializeApp} from './redux/app-reducer';
+import {AppStateType} from './redux/redux-store';
+import Preloader from './components/common/Pleloader/Preloader';
+
 
 const App = () => {
 
+    const initialized = useSelector<AppStateType, boolean>(state => state.app.initialized )
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(initializeApp())
+    },[dispatch])
+
+    if (!initialized) {
+        return <Preloader/>
+    }
     return (
         <BrowserRouter>
             <div>
@@ -23,7 +39,7 @@ const App = () => {
                         <Route path='/login' render={() => <Login/>}/>
                         <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-                      <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
                         <Route path='/music' render={() => <Music/>}/>
                         <Route path='/news' render={() => <News/>}/>
                         <Route path='/settings' render={() => <Settings/>}/>
