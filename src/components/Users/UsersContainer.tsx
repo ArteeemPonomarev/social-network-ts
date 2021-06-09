@@ -10,8 +10,14 @@ import {
     toggleFollowingProgress, getUsers, followUser, unfollowUser
 } from '../../redux/usersReducer';
 import Preloader from '../common/Pleloader/Preloader';
-import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 import {compose} from 'redux';
+import {
+    getCurrentPageS, getFollowingInProgressS,
+    getIsFetchingS,
+    getPageSizeS,
+    getTotalUsersCountS,
+    getUsersS
+} from '../../redux/users-selector';
 
 
 export type MapStatePropsType = {
@@ -73,12 +79,12 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsersS(state),
+        pageSize: getPageSizeS(state),
+        totalUsersCount: getTotalUsersCountS(state),
+        currentPage: getCurrentPageS(state),
+        isFetching: getIsFetchingS(state),
+        followingInProgress: getFollowingInProgressS(state)
     };
 };
 
