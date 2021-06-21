@@ -159,10 +159,11 @@ export type UsersActionTypes = ReturnType<typeof follow>
     | ReturnType<typeof toggleFollowingProgress>
 
 
-export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
+export const requestUsers = (page: number, pageSize: number): AppThunk => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
-        usersAPI.getUsers(currentPage, pageSize)
+        dispatch(setCurrentPage(page));
+        usersAPI.getUsers(page, pageSize)
             .then(response => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setTotalUsersCount(response.totalCount))

@@ -2,7 +2,7 @@ import React from 'react';
 import style from './Users.module.css'
 import {UserType} from '../../redux/usersReducer';
 import {NavLink} from 'react-router-dom';
-import axios from 'axios';
+
 
 type UsersPropsType = {
     follow: (id: number) => void
