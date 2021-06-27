@@ -51,6 +51,8 @@ export type ProfilePageType = typeof initialState;
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ProfileActionsType): ProfilePageType => {
     switch (action.type) {
+        case 'DELETE_POST':
+            return {...state, posts: state.posts.filter(p => p.id !== action.id)}
         case ADD_POST:
             const newPost: PostsContentType = {
                 id: new Date().getTime(),
@@ -85,6 +87,12 @@ export const addPostAC = (newPostText: string) => {
         newPostText
     } as const;
 };
+export const deletePostAC = (id: number) => {
+    return {
+        type: 'DELETE_POST',
+        id
+    } as const;
+};
 
 export const setUserProfile = (profile: ProfileType) => {
     return {
@@ -104,6 +112,7 @@ export const setUserStatus = (status: string) => {
 export type ProfileActionsType = ReturnType<typeof setUserStatus>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof addPostAC>
+    | ReturnType<typeof deletePostAC>
 
 //Thunks
 export const getUserProfile = (userId: number): AppThunk => {
