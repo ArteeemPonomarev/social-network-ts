@@ -18,9 +18,9 @@ const AddPostForm: React.FC<InjectedFormProps<AddPostFormDataType>> = (props) =>
             <div>
                 <Field
                     component={Textarea}
-                    name={"newPostText"}
+                    name={'newPostText'}
                     validate={[required, maxLength10]}
-                    placeholder={"Type your post..."}/>
+                    placeholder={'Type your post...'}/>
             </div>
             <div>
                 <button>Add post</button>
@@ -33,13 +33,17 @@ const AddPostFormRedux = reduxForm<AddPostFormDataType>({
     form: 'addPostForm'
 })(AddPostForm)
 
-const MyPosts = (props: MyPostsPropsType) => {
+const MyPosts = React.memo((props: MyPostsPropsType) => {
 
-    let postsElements = props.posts.map(p => <Post message={p.message} likecount={p.likesCount} id={p.id} key={p.id}/>);
+    let postsElements = props.posts.map(p => <Post message={p.message}
+                                                   likecount={p.likesCount}
+                                                   id={p.id}
+                                                   key={p.id}/>);
 
     const addPost = (values: AddPostFormDataType) => {
         props.addPost(values.newPostText);
     };
+
 
     return (
         <div className={style.postsBlock}>
@@ -50,6 +54,6 @@ const MyPosts = (props: MyPostsPropsType) => {
             </div>
         </div>
     )
-};
+});
 
 export default MyPosts;

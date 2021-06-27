@@ -25,16 +25,20 @@ type PathParamsType = {
     userId: string
 }
 
-export type ProfileContainerPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>;
+export type ProfileContainerPropsType = MapStatePropsType
+    & MapDispatchPropsType
+    & RouteComponentProps<PathParamsType>;
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userId = +this.props.match.params.userId;
+
         if (!userId) {
             userId = Number(this.props.authorizedUserId);
-            if(!userId) {
-                this.props.history.push("/login");
+
+            if (!userId) {
+                this.props.history.push('/login');
             }
         }
         this.props.getUserProfile(userId);
@@ -45,7 +49,10 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     render() {
 
         return (
-            <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateUserStatus={this.props.updateUserStatus}/>
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     status={this.props.status}
+                     updateUserStatus={this.props.updateUserStatus}/>
         )
     }
 }
