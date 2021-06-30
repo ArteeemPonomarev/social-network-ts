@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './Profile.module.css';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import { ProfileType } from '../../redux/profile-reducer';
@@ -10,11 +9,11 @@ type ProfilePropsType = {
     status: string | null
 }
 
-const Profile = (props: ProfilePropsType) => {
+const Profile: React.FC<ProfilePropsType> = ({profile, status, updateUserStatus}) => {
 
     return (
         <div>
-            <ProfileInfo profile={props.profile} status={props.status} updateUserStatus={props.updateUserStatus}/>
+            <ProfileInfo profile={profile} status={status} updateUserStatus={updateUserStatus}/>
             <MyPostsContainer />
         </div>
     )

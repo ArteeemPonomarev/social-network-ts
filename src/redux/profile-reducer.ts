@@ -1,9 +1,6 @@
 import {AppThunk} from './redux-store';
 import {profileAPI} from '../api/api';
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_USER_STATUS = 'SET_USER_STATUS';
 
 export type PostsContentType = {
     id: number
@@ -38,9 +35,9 @@ export type ProfileType = {
 
 let initialState = {
     posts: [
-        { id: 1, message: 'Hi, how are you?', likesCount: 12 },
-        { id: 2, message: 'It is my first post', likesCount: 11 },
-        { id: 3, message: 'Dadadad', likesCount: 3 }
+        {id: 1, message: 'Hi, how are you?', likesCount: 12},
+        {id: 2, message: 'It is my first post', likesCount: 11},
+        {id: 3, message: 'Dadadad', likesCount: 3}
     ] as Array<PostsContentType>,
     profile: null as ProfileType | null,
     status: null as string | null
@@ -53,7 +50,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
     switch (action.type) {
         case 'DELETE_POST':
             return {...state, posts: state.posts.filter(p => p.id !== action.id)}
-        case ADD_POST:
+        case 'social-network/profile/ADD-POST':
             const newPost: PostsContentType = {
                 id: new Date().getTime(),
                 message: action.newPostText,
@@ -64,12 +61,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
                 ...state,
                 posts: [...state.posts, newPost],
             };
-        case SET_USER_PROFILE:
+        case 'social-network/profile/SET_USER_PROFILE':
             return {
                 ...state,
                 profile: action.profile
             }
-        case SET_USER_STATUS:
+        case 'social-network/profile/SET_USER_STATUS':
             return {
                 ...state,
                 status: action.status
@@ -80,10 +77,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
 };
 
 
-
 export const addPostAC = (newPostText: string) => {
     return {
-        type: ADD_POST,
+        type: 'social-network/profile/ADD-POST',
         newPostText
     } as const;
 };
@@ -96,14 +92,14 @@ export const deletePostAC = (id: number) => {
 
 export const setUserProfile = (profile: ProfileType) => {
     return {
-        type: SET_USER_PROFILE,
+        type: 'social-network/profile/SET_USER_PROFILE',
         profile
     } as const;
 }
 
 export const setUserStatus = (status: string) => {
     return {
-        type: SET_USER_STATUS,
+        type: 'social-network/profile/SET_USER_STATUS',
         status
     } as const;
 }
@@ -115,31 +111,20 @@ export type ProfileActionsType = ReturnType<typeof setUserStatus>
     | ReturnType<typeof deletePostAC>
 
 //Thunks
-export const getUserProfile = (userId: number): AppThunk => {
-    return (dispatch) => {
-        profileAPI.getUserProfile(userId)
-            .then(response => {
-                dispatch(setUserProfile(response))
-            })
-    }
+export const getUserProfile = (userId: number): AppThunk => async (dispatch) => {
+    const response = await profileAPI.getUserProfile(userId)
+    dispatch(setUserProfile(response))
 }
 
-export const getUserStatus = (userId: number): AppThunk => {
-    return (dispatch) => {
-        profileAPI.getUserStatus(userId)
-            .then(response => {
-                dispatch(setUserStatus(response.data))
-            })
-    }
+export const getUserStatus = (userId: number): AppThunk => async (dispatch) => {
+    const response = await profileAPI.getUserStatus(userId)
+    dispatch(setUserStatus(response.data))
 }
 
-export const updateUserStatus = (status: string): AppThunk => {
-    return (dispatch) => {
-        profileAPI.updateStatus(status)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setUserStatus(status))
-                }
-            })
+export const updateUserStatus = (status: string): AppThunk => async (dispatch) => {
+    const response = await profileAPI.updateStatus(status)
+
+    if (response.data.resultCode === 0) {
+        dispatch(setUserStatus(status))
     }
 }

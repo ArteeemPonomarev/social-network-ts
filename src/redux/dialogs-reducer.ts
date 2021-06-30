@@ -1,16 +1,3 @@
-const ADD_DIALOG_MESSAGE = 'ADD-DIALOG-MESSAGE';
-
-
-type DialogContentType = {
-    id: number
-    name: string
-};
-
-type MessageContentType = {
-    id: number
-    message: string
-};
-
 const initialState = {
     dialogs: [
         {id: 1, name: 'Artem'},
@@ -31,7 +18,7 @@ export type DialogsPageType = typeof initialState;
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: DialogsActionsTypes): DialogsPageType => {
     switch (action.type) {
-        case ADD_DIALOG_MESSAGE:
+        case 'social-network/dialogs/ADD-DIALOG-MESSAGE':
             const newDialogMessage = {
                 id: new Date().getTime(),
                 message: action.newMessageBody
@@ -42,12 +29,24 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Di
     }
 };
 
-
+//action creators
 export const addMessageAC = (newMessageBody: string) => {
     return {
-        type: ADD_DIALOG_MESSAGE,
+        type: 'social-network/dialogs/ADD-DIALOG-MESSAGE',
         newMessageBody
     } as const;
+};
+
+
+//types
+type DialogContentType = {
+    id: number
+    name: string
+};
+
+type MessageContentType = {
+    id: number
+    message: string
 };
 
 export type DialogsActionsTypes =  ReturnType<typeof addMessageAC>

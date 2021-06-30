@@ -1,7 +1,6 @@
 import {AppThunk} from './redux-store';
 import {authMe} from './auth-reducer';
 
-const INITIALIZED_SUCCESS = 'INITIALIZED-SUCCESS';
 
 export type AppDataType = {
     initialized: boolean
@@ -14,7 +13,7 @@ const initialState: AppDataType = {
 
 export const appReducer = (state: AppDataType = initialState, action: AppActionsTypes): AppDataType => {
     switch (action.type) {
-        case INITIALIZED_SUCCESS:
+        case 'social-network/app/INITIALIZED-SUCCESS':
             return {
                 ...state,
                 initialized: true
@@ -27,7 +26,7 @@ export const appReducer = (state: AppDataType = initialState, action: AppActions
 //Action Creators
 export const initializedSuccess = () => {
     return {
-        type: INITIALIZED_SUCCESS
+        type: 'social-network/app/INITIALIZED-SUCCESS'
     } as const
 }
 export type AppActionsTypes = ReturnType<typeof initializedSuccess>
