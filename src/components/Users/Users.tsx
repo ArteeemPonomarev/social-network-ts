@@ -23,7 +23,7 @@ const Users: React.FC<UsersPropsType> = (props) => {
             <Paginator currentPage={props.currentPage}
                        pageSize={props.pageSize}
                        setCurrentPage={props.setCurrentPage}
-                       totalUsersCount={props.totalUsersCount}/>
+                       totalItemsCount={props.totalUsersCount}/>
 
             {props.users.map(u => <User key={u.id}
                                         followingInProgress={props.followingInProgress}
