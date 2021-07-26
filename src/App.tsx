@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
@@ -15,6 +14,7 @@ import {initializeApp} from './redux/app-reducer';
 import store, {AppStateType} from './redux/redux-store';
 import Preloader from './components/common/Pleloader/Preloader';
 
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 
 const App = () => {
 
@@ -35,13 +35,15 @@ const App = () => {
             <div className="wrapper">
                 <Navbar/>
                 <div className="wrapperContent">
-                    <Route path='/login' render={() => <Login/>}/>
-                    <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                    <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/settings' render={() => <Settings/>}/>
+                    <Suspense fallback={<Preloader/>}>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+                        <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/music' render={() => <Music/>}/>
+                        <Route path='/news' render={() => <News/>}/>
+                        <Route path='/settings' render={() => <Settings/>}/>
+                    </Suspense>
                 </div>
             </div>
         </div>
