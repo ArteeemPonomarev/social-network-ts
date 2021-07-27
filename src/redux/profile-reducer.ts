@@ -71,6 +71,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
                 ...state,
                 status: action.status
             }
+        case "social-network/profile/SET_PHOTO_SUCCESS":
+            return {
+                ...state,
+                //@ts-ignore
+                profile: {...state.profile, photos: action.photos}
+            }
         default:
             return state;
     }
@@ -103,12 +109,19 @@ export const setUserStatus = (status: string) => {
         status
     } as const;
 }
+export const savePhotoSuccess = (photos: PhotosType) => {
+    return {
+        type: 'social-network/profile/SET_PHOTO_SUCCESS',
+        photos
+    } as const
+}
 
 
 export type ProfileActionsType = ReturnType<typeof setUserStatus>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof deletePostAC>
+    | ReturnType<typeof savePhotoSuccess>
 
 //Thunks
 export const getUserProfile = (userId: number): AppThunk => async (dispatch) => {
@@ -127,4 +140,13 @@ export const updateUserStatus = (status: string): AppThunk => async (dispatch) =
     if (response.data.resultCode === 0) {
         dispatch(setUserStatus(status))
     }
+}
+
+export const savePhoto = (file: File): AppThunk => async (dispatch) => {
+     const response = await profileAPI.savePhoto(file)
+
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.data.photos))
+    }
+
 }
