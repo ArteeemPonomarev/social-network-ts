@@ -23,8 +23,8 @@ const ProfileInfo: React.FC<ProfileInfoPropsType> = (
         savePhoto,
         saveProfile
     }) => {
-    
 
+    
     const [editMode, setEditMode] = useState<boolean>(false)
 
     const activateEditMode = () => {
@@ -39,8 +39,8 @@ const ProfileInfo: React.FC<ProfileInfoPropsType> = (
     }
 
     const onSubmit = (formData: ProfileFormDataType) => {
-        console.log(formData)
         saveProfile(formData)
+        setEditMode(false) // refactor later
     }
 
 
@@ -60,7 +60,7 @@ const ProfileInfo: React.FC<ProfileInfoPropsType> = (
                 <ProfileStatusWithHooks status={status}
                                         updateUserStatus={updateUserStatus}/>
                 {editMode
-                    ? <ProfileDataReduxForm onSubmit={onSubmit}/>
+                    ? <ProfileDataReduxForm initialValues={profile} onSubmit={onSubmit}/>
                     : <ProfileData profile={profile} isOwner={isOwner} activateEditMode={activateEditMode}/>}
 
             </div>
@@ -90,9 +90,9 @@ const ProfileData:React.FC<ProfileDataPropsType> = ({profile, isOwner, activateE
                     <b>My professional skills</b>: {profile.lookingForAJobDescription}
                 </div>
             }
-            {/*<div>*/}
-            {/*    <b>About me: {profile.aboutMe ? 'yes' : 'no'}</b>*/}
-            {/*</div>*/}
+            <div>
+                <b>About me</b>: {profile.aboutMe}
+            </div>
             <div>
                 <b>Contact:</b> {Object.keys(profile.contacts).map(key => {
                 //@ts-ignore
@@ -111,7 +111,7 @@ type ContactPropsType = {
     contactValue: string | null
 }
 
-const Contact: React.FC<ContactPropsType> = ({contactValue, contactTitle}) => {
+export const Contact: React.FC<ContactPropsType> = ({contactValue, contactTitle}) => {
     return (
         <div style={{marginLeft: '20px'}}>
             <b>{contactTitle}</b>: {contactValue}

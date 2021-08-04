@@ -1,6 +1,7 @@
-import {AppThunk} from './redux-store';
+import {AppStateType, AppThunk} from './redux-store';
 import {profileAPI} from '../api/api';
 import {ProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileDataForm";
+import {stopSubmit} from "redux-form";
 
 
 export type PostsContentType = {
@@ -152,10 +153,18 @@ export const savePhoto = (file: File): AppThunk => async (dispatch) => {
     }
 }
 
-export const saveProfile = (formData: ProfileFormDataType): AppThunk => async (dispatch) => {
-    const response = await profileAPI.saveProfile(formData);
-    debugger
-    if (response.data.resultCode === 0) {
-        // dispatch(getUserProfile())
+export const saveProfile = (formData: ProfileFormDataType): AppThunk =>
+    async (dispatch, getState: () => AppStateType) => {
+        const userId = getState().auth.userId
+
+        const response = await profileAPI.saveProfile(formData);
+        if (response.data.resultCode === 0) {
+            if(userId) {
+                dispatch(getUserProfile(userId))
+            }
+        } else {
+            const message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error';
+            dispatch(stopSubmit('edit-profile', {_error: message}))
+            return Promise.reject(message)
+        }
     }
-}

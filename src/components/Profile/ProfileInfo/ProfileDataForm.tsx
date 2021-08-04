@@ -5,19 +5,23 @@ import {useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
 import {ProfileType} from "../../../redux/profile-reducer";
 
+
 export type ProfileFormDataType = {
     fullName: string
-    lookingForAJob: string
+    lookingForAJob: boolean
     lookingForAJobDescription: string
     aboutMe: string
 }
 
-const ProfileDataForm: React.FC<InjectedFormProps<ProfileFormDataType>> = ({handleSubmit}) => {
+const ProfileDataForm: React.FC<InjectedFormProps<ProfileFormDataType>> = ({handleSubmit, error}) => {
     const profile = useSelector<AppStateType, ProfileType | null>(state => state.profilePage.profile)
 
     return (
         <form onSubmit={handleSubmit}>
             <div><button>Save</button></div>
+            {error && <div style={{color: 'red'}}>
+                {error}
+            </div>}
             <div>
                 <b>Full Name</b>: {createField("Full name", "fullName", [], Input)}
             </div>
@@ -34,12 +38,14 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileFormDataType>> = ({hand
                 <b>About me</b>:
                 {createField('About me', 'aboutMe', [], Textarea)}
             </div>
-            {/*/!*<div>*!/*/}
-            {/*/!*    <b>Contact:</b> {Object.keys(profile.contacts).map(key => {*!/*/}
-            {/*/!*    //@ts-ignore*!/*/}
-            {/*/!*    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>*!/*/}
-            {/*/!*})}*!/*/}
-            {/*</div>*/}
+            <div>
+                <b>Contact:</b> {profile && Object.keys(profile.contacts).map(key => {
+                //@ts-ignore
+                return <div key={key}>
+                    <b>{key} :</b> {createField(key, 'contacts.' + key, [], Input)}
+                </div>
+            })}
+            </div>
         </form>
     )
 }
