@@ -2,7 +2,7 @@ import React from 'react';
 import {InjectedFormProps, reduxForm} from 'redux-form';
 import {createField, Input} from '../common/FormsControls/FormsControls';
 import {required} from '../../utils/validators/validators';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {login} from '../../redux/auth-reducer';
 import {Redirect} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
@@ -12,6 +12,7 @@ type LoginFormDataType = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string
 }
 
 type MapDispatchToPropsType = {
@@ -21,17 +22,19 @@ type MapStateToPropsType = {
     isAuth: boolean
 }
 
-type LoginPropsType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
-    isAuth: boolean
-}
 
 const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = ({handleSubmit, error}) => {
+
+    const captchaUrl = useSelector<AppStateType, string | null>(state => state.auth.captchaUrl)
+
     return (
         <form onSubmit={handleSubmit}>
             {createField('Email', 'email', [required], Input)}
             {createField('password', 'password', [required], Input, {type: 'password'})}
             {createField(null, 'rememberMe', [], Input, {type: 'checkbox'},'remember me')}
+
+            {captchaUrl && <img src={captchaUrl} alt="captcha"/>}
+            {captchaUrl && createField('Captcha symbols', 'captcha', [required], Input)}
 
             {error && <div className={styles.formSummaryError}>{error}</div>}
 
@@ -46,10 +49,16 @@ const LoginReduxForm = reduxForm<LoginFormDataType>({
     form: 'login'
 })(LoginForm)
 
+
+type LoginPropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
+    isAuth: boolean
+}
+
 const Login: React.FC<LoginPropsType> = ({login, isAuth}) => {
     const onSubmit = (formData: LoginFormDataType) => {
-        const {email, password, rememberMe} = formData;
-        login(email, password, rememberMe);
+        const {email, password, rememberMe, captcha} = formData;
+        login(email, password, rememberMe, captcha);
     }
 
     if (isAuth) {
@@ -66,7 +75,7 @@ const Login: React.FC<LoginPropsType> = ({login, isAuth}) => {
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
     }
 }
 
