@@ -3,9 +3,9 @@ import Users from './Users';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
-    setCurrentPage,
+    userActions,
     UserType,
-    toggleFollowingProgress, requestUsers, followUser, unfollowUser
+    requestUsers, followUser, unfollowUser
 } from '../../redux/usersReducer';
 import Preloader from '../common/Pleloader/Preloader';
 import {compose} from 'redux';
@@ -84,8 +84,8 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose<React.ComponentType>(
     connect<MapStatePropsType,MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
-        setCurrentPage,
-        toggleFollowingProgress,
+        setCurrentPage: userActions.setCurrentPage,
+        toggleFollowingProgress: userActions.toggleFollowingProgress,
         getUsers: requestUsers,
         followUser,
         unfollowUser,

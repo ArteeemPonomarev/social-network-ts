@@ -32,18 +32,22 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
 };
 
 //Action Creators
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
-    return {
-        type: 'social-network/auth/SET-USER_DATA',
-        payload: {login, userId, email, isAuth}
-    } as const
+const authActions = {
+    setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
+        return {
+            type: 'social-network/auth/SET-USER_DATA',
+            payload: {login, userId, email, isAuth}
+        } as const
+    },
+    setCaptchaUrl: (captchaUrl: string) => {
+        return {
+            type: 'social-network/auth/GET-CAPTCHA-URL-SUCCESS',
+            payload: {captchaUrl}
+        } as const
+    },
 }
-export const setCaptchaUrl = (captchaUrl: string) => {
-    return {
-        type: 'social-network/auth/GET-CAPTCHA-URL-SUCCESS',
-        payload: {captchaUrl}
-    } as const
-}
+
+
 
 
 //Thunks
@@ -53,7 +57,7 @@ export const authMe = (): AppThunk<Promise<void>> => async (dispatch) => {
 
         if (autMeData.resultCode === ResultCodes.Success) {
             let {id, login, email} = autMeData.data;
-            dispatch(setAuthUserData(id, email, login, true));
+            dispatch(authActions.setAuthUserData(id, email, login, true));
         }
     } catch (error) {
         console.log(error)
@@ -82,7 +86,7 @@ export const getCaptchaUrl = (): AppThunk<Promise<void>> =>
     async (dispatch) => {
         try {
             const {url} = await securityAPI.getCaptchaUrl();
-            dispatch(setCaptchaUrl(url))
+            dispatch(authActions.setCaptchaUrl(url))
         } catch (error) {
             console.log(error)
         }
@@ -94,7 +98,7 @@ export const logout = (): AppThunk<Promise<void>> => async (dispatch) => {
         const response = await authApi.logout()
 
         if (response.resultCode === ResultCodes.Success) {
-            dispatch(setAuthUserData(null, null, null, false))
+            dispatch(authActions.setAuthUserData(null, null, null, false))
         }
     } catch (error) {
         console.log(error)
@@ -102,6 +106,6 @@ export const logout = (): AppThunk<Promise<void>> => async (dispatch) => {
 }
 
 //types
-export type AuthActionsTypes = ReturnType<typeof setAuthUserData>
+export type AuthActionsTypes = ReturnType<typeof authActions.setAuthUserData>
     | ReturnType<typeof stopSubmit>
-    | ReturnType<typeof setCaptchaUrl>
+    | ReturnType<typeof authActions.setCaptchaUrl>

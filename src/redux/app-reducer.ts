@@ -1,4 +1,4 @@
-import {AppThunk} from './redux-store';
+import {AppThunk, InferActionsTypes} from './redux-store';
 import {authMe} from './auth-reducer';
 
 
@@ -21,16 +21,18 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
 };
 
 //Action Creators
-export const initializedSuccess = () => ({type: 'social-network/app/INITIALIZED-SUCCESS'} as const)
+export const appActions = {
+    initializedSuccess: () => ({type: 'social-network/app/INITIALIZED-SUCCESS'} as const)
+}
 
-export type AppActionsTypes = ReturnType<typeof initializedSuccess>;
+export type AppActionsTypes = InferActionsTypes<typeof appActions>;
 
 //Thunks
 export const initializeApp = (): AppThunk  => async (dispatch) => {
     try {
         const promise = dispatch(authMe());
         await Promise.all([promise])
-        dispatch(initializedSuccess())
+        dispatch(appActions.initializedSuccess())
     } catch(error) {
         console.log(error)
     }
