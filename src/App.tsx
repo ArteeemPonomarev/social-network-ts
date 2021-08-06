@@ -4,7 +4,7 @@ import ProfileContainer from './components/Profile/ProfileContainer';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
@@ -37,13 +37,15 @@ const App = () => {
                 <Navbar/>
                 <div className="wrapperContent">
                     <Switch>
-                            <Route path='/login' render={() => <Login/>}/>
-                            <Route path='/dialogs' render={withSuspence(DialogsContainer)}/>
-                            <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-                            <Route path='/users' render={() => <UsersContainer/>}/>
-                            <Route path='/music' render={() => <Music/>}/>
-                            <Route path='/news' render={() => <News/>}/>
-                            <Route path='/settings' render={() => <Settings/>}/>
+                        <Route exact path='/' render={() => <Redirect to='/profile'/>}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='/dialogs' render={withSuspence(DialogsContainer)}/>
+                        <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/music' render={() => <Music/>}/>
+                        <Route path='/news' render={() => <News/>}/>
+                        <Route path='/settings' render={() => <Settings/>}/>
+                        <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
                     </Switch>
                 </div>
             </div>
