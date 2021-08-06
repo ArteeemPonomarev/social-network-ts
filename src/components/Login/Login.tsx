@@ -16,12 +16,12 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormDataType, LoginFormOwnProps
 
     return (
         <form onSubmit={handleSubmit}>
-            {createField('Email', 'email', [required], Input)}
-            {createField('password', 'password', [required], Input, {type: 'password'})}
-            {createField(null, 'rememberMe', [], Input, {type: 'checkbox'},'remember me')}
+            {createField<LoginFormDataTypeKeys>('Email', 'email', [required], Input)}
+            {createField<LoginFormDataTypeKeys>('password', 'password', [required], Input, {type: 'password'})}
+            {createField<LoginFormDataTypeKeys>(undefined, 'rememberMe', [], Input, {type: 'checkbox'},'remember me')}
 
             {captchaUrl && <img src={captchaUrl} alt="captcha"/>}
-            {captchaUrl && createField('Captcha symbols', 'captcha', [required], Input)}
+            {captchaUrl && createField<LoginFormDataTypeKeys>('Captcha symbols', 'captcha', [required], Input)}
 
             {error && <div className={styles.formSummaryError}>{error}</div>}
 
@@ -69,6 +69,8 @@ type LoginFormDataType = {
     rememberMe: boolean
     captcha: string
 }
+
+type LoginFormDataTypeKeys = Extract<keyof LoginFormDataType, string>;
 
 type LoginFormOwnPropsType = {
     captchaUrl: string | null

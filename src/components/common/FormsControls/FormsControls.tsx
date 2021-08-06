@@ -1,21 +1,28 @@
 import React from 'react';
 import styles from './FormsControls.module.css'
-import {Field} from 'redux-form';
+import {Field, WrappedFieldMetaProps, WrappedFieldProps} from 'redux-form';
+import {FieldValidatorType} from "../../../utils/validators/validators";
 
-export const FormControl: React.FC<any> = ({input, meta, ...props}) => {
-    const hasError = meta.touched && meta.error;
+
+type FormsControlPropsType = {
+    meta: WrappedFieldMetaProps
+}
+
+export const FormControl:React.FC<FormsControlPropsType>= ({meta: {touched, error}, children}) => {
+    const hasError = touched && error;
     return (
         <div className={`${styles.formControl} ${hasError ? styles.error : ''}`}>
             <div>
-                {props.children}
+                {children}
             </div>
-            {meta.touched && meta.error && <span>{meta.error}</span>}
+            {touched && error && <span>{error}</span>}
         </div>
     )
 }
 
-export const Textarea: React.FC<any> = (props) => {
-    const {input, meta, child, ...restProps} = props;
+export const Textarea: React.FC<WrappedFieldProps> = (props) => {
+   // const {input, meta, child, ...restProps} = props;
+    const {input, meta, ...restProps} = props;
     return (
         <FormControl {...props}>
             <textarea {...input} {...restProps}/>
@@ -23,8 +30,8 @@ export const Textarea: React.FC<any> = (props) => {
     )
 }
 
-export const Input: React.FC<any> = (props) => {
-    const {input, meta, child, ...restProps} = props;
+export const Input: React.FC<WrappedFieldProps> = (props) => {
+    const {input, meta, ...restProps} = props;
     return (
         <FormControl {...props}>
             <input {...props.input} {...restProps}/>
@@ -32,12 +39,12 @@ export const Input: React.FC<any> = (props) => {
     )
 }
 
-export const createField = (placeholder: string | null,
-                            name: string,
-                            validators: Array<any>,
+export function createField<FormKeysType extends string> (placeholder: string | undefined,
+                            name: FormKeysType,
+                            validators: Array<FieldValidatorType>,
                             component: any,
                             props?:{type: string},
-                            text?: string) => {
+                            text?: string) {
     return (
         <div>
             <Field
