@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {ProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileDataForm";
+import {UserType} from "../redux/usersReducer";
+import {ProfileType} from "../redux/profile-reducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -9,61 +11,83 @@ const instance = axios.create({
     }
 });
 
+
 export const usersAPI = {
     getUsers(currentPage: number = 1, pageSize: number = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+        return instance.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data);
     },
     follow(userId: number) {
-        return instance.post(`follow/${userId}`, {})
+        return instance.post<ResponseType>(`follow/${userId}`, {})
             .then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete(`follow/${userId}`)
+        return instance.delete<ResponseType>(`follow/${userId}`)
             .then(response => response.data)
     }
 }
 
 export const profileAPI = {
     getUserProfile(userId: string) {
-        return instance.get(`profile/${userId}`)
+        return instance.get<ProfileType>(`profile/${userId}`)
             .then(response => response.data)
     },
     getUserStatus(userId: number) {
-        return instance.get(`profile/status/${userId}`)
+        return instance.get<string>(`profile/status/${userId}`)
+            .then(response => response.data)
     },
     updateStatus(status: string) {
-        return instance.put(`profile/status`, {status})
+        return instance.put<ResponseType>(`profile/status`, {status})
+            .then(response => response.data)
     },
     savePhoto(file: File) {
         const formData = new FormData();
         formData.append("image", file)
-        return instance.put(`profile/photo`, formData)
+        return instance.put<ResponseType<ProfileType>>(`profile/photo`, formData)
+            .then(response => response.data)
     },
     saveProfile(formData: ProfileFormDataType) {
-        return instance.put(`profile`, formData)
+        return instance.put<ResponseType>(`profile`, formData)
+            .then(response => response.data)
     }
 }
 
 export const authApi = {
     authMe() {
-        return instance.get(`auth/me`)
+        return instance.get<ResponseType<{ id: number, email: string, login: string }>>(`auth/me`)
             .then(response => response.data)
     },
     login(email: string, password: string, rememberMe: boolean, captcha: null | string = null) {
-        return instance.post(`auth/login`, {password, email, rememberMe, captcha})
+        return instance.post<ResponseType<{ userId: number }>>(`auth/login`, {password, email, rememberMe, captcha})
             .then(response => response.data)
     },
     logout() {
-        return instance.delete(`auth/login`)
+        return instance.delete<ResponseType>(`auth/login`)
             .then(response => response.data)
     }
 }
 
 export const securityAPI = {
     getCaptchaUrl() {
-        return instance.get(`security/get-captcha-url`)
+        return instance.get<{ url: string }>(`security/get-captcha-url`)
+            .then(response => response.data)
     }
 }
 
+//types
+type GetUsersResponseType = {
+    error: null | string
+    totalCount: number
+    items: Array<UserType>
+}
+type ResponseType<D = {}> = {
+    resultCode: ResultCodes
+    messages: Array<string>,
+    data: D
+}
 
+export enum ResultCodes {
+    Success = 0,
+    Error = 1,
+    CaptchaIsRequired = 10,
+}

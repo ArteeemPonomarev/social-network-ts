@@ -1,5 +1,5 @@
 import {AppThunk} from './redux-store';
-import {usersAPI} from '../api/api';
+import {ResultCodes, usersAPI} from '../api/api';
 import {Dispatch} from 'redux';
 import {updateObjectInArray} from '../utils/object-helpers';
 
@@ -113,7 +113,7 @@ export const _followUnfollowFlow = async (dispatch: Dispatch,
     dispatch(toggleFollowingProgress(true, userId));
     const response = await apiMethod(userId);
 
-    if (response.resultCode === 0) {
+    if (response.resultCode === ResultCodes.Success) {
         dispatch(actionCreator(userId))
     }
     dispatch(toggleFollowingProgress(false, userId))

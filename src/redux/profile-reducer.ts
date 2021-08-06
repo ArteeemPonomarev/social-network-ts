@@ -1,5 +1,5 @@
 import {AppStateType, AppThunk} from './redux-store';
-import {profileAPI} from '../api/api';
+import {profileAPI, ResultCodes} from '../api/api';
 import {ProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileDataForm";
 import {stopSubmit} from "redux-form";
 
@@ -133,23 +133,23 @@ export const getUserProfile = (userId: string): AppThunk<Promise<void>> => async
 }
 
 export const getUserStatus = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
-    const response = await profileAPI.getUserStatus(userId)
-    dispatch(setUserStatus(response.data))
+    const userStatus = await profileAPI.getUserStatus(userId)
+    dispatch(setUserStatus(userStatus))
 }
 
 export const updateUserStatus = (status: string): AppThunk<Promise<void>> => async (dispatch) => {
-    const response = await profileAPI.updateStatus(status)
+    const responseData = await profileAPI.updateStatus(status)
 
-    if (response.data.resultCode === 0) {
+    if (responseData.resultCode === ResultCodes.Success) {
         dispatch(setUserStatus(status))
     }
 }
 
 export const savePhoto = (file: File): AppThunk => async (dispatch) => {
-    const response = await profileAPI.savePhoto(file)
+    const responseData = await profileAPI.savePhoto(file)
 
-    if (response.data.resultCode === 0) {
-        dispatch(savePhotoSuccess(response.data.data.photos))
+    if (responseData.resultCode === ResultCodes.Success) {
+        dispatch(savePhotoSuccess(responseData.data.photos))
     }
 }
 
@@ -157,13 +157,13 @@ export const saveProfile = (formData: ProfileFormDataType): AppThunk =>
     async (dispatch, getState: () => AppStateType) => {
         const userId = getState().auth.userId
 
-        const response = await profileAPI.saveProfile(formData);
-        if (response.data.resultCode === 0) {
+        const responseData = await profileAPI.saveProfile(formData);
+        if (responseData.resultCode === ResultCodes.Success) {
             if(userId) {
                 dispatch(getUserProfile(userId))
             }
         } else {
-            const message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error';
+            const message = responseData.messages.length > 0 ? responseData.messages[0] : 'Some error';
             dispatch(stopSubmit('edit-profile', {_error: message}))
             return Promise.reject(message)
         }
