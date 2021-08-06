@@ -45,10 +45,7 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = ({handleSubmit
     )
 }
 
-const LoginReduxForm = reduxForm<LoginFormDataType>({
-    form: 'login'
-})(LoginForm)
-
+const LoginReduxForm = reduxForm<LoginFormDataType>({form: 'login'})(LoginForm);
 
 type LoginPropsType = {
     login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void

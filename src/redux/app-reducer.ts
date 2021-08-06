@@ -26,11 +26,14 @@ export const initializedSuccess = () => ({type: 'social-network/app/INITIALIZED-
 export type AppActionsTypes = ReturnType<typeof initializedSuccess>;
 
 //Thunks
-export const initializeApp = (): AppThunk  => (dispatch) => {
-    const promise = dispatch(authMe());
+export const initializeApp = (): AppThunk  => async (dispatch) => {
+    try {
+        const promise = dispatch(authMe());
+        await Promise.all([promise])
+        dispatch(initializedSuccess())
+    } catch(error) {
+        console.log(error)
+    }
 
-    Promise.all([promise])
-        .then(() => {
-            dispatch(initializedSuccess())
-        })
+
 }

@@ -128,43 +128,62 @@ export type ProfileActionsType = ReturnType<typeof setUserStatus>
 
 //Thunks
 export const getUserProfile = (userId: string): AppThunk<Promise<void>> => async (dispatch) => {
-    const response = await profileAPI.getUserProfile(userId)
-    dispatch(setUserProfile(response))
+    try {
+        const response = await profileAPI.getUserProfile(userId)
+        dispatch(setUserProfile(response))
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getUserStatus = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
-    const userStatus = await profileAPI.getUserStatus(userId)
-    dispatch(setUserStatus(userStatus))
+    try {
+        const userStatus = await profileAPI.getUserStatus(userId)
+        dispatch(setUserStatus(userStatus))
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const updateUserStatus = (status: string): AppThunk<Promise<void>> => async (dispatch) => {
-    const responseData = await profileAPI.updateStatus(status)
+    try {
+        const responseData = await profileAPI.updateStatus(status)
 
-    if (responseData.resultCode === ResultCodes.Success) {
-        dispatch(setUserStatus(status))
+        if (responseData.resultCode === ResultCodes.Success) {
+            dispatch(setUserStatus(status))
+        }
+    } catch(error) {
+        console.log(error)
     }
 }
 
 export const savePhoto = (file: File): AppThunk => async (dispatch) => {
-    const responseData = await profileAPI.savePhoto(file)
+   try {
+       const responseData = await profileAPI.savePhoto(file)
 
-    if (responseData.resultCode === ResultCodes.Success) {
-        dispatch(savePhotoSuccess(responseData.data.photos))
-    }
+       if (responseData.resultCode === ResultCodes.Success) {
+           dispatch(savePhotoSuccess(responseData.data.photos))
+       }
+   } catch (error) {
+       console.log(error)
+   }
 }
 
 export const saveProfile = (formData: ProfileFormDataType): AppThunk =>
     async (dispatch, getState: () => AppStateType) => {
         const userId = getState().auth.userId
-
-        const responseData = await profileAPI.saveProfile(formData);
-        if (responseData.resultCode === ResultCodes.Success) {
-            if(userId) {
-                dispatch(getUserProfile(userId))
+        try {
+            const responseData = await profileAPI.saveProfile(formData);
+            if (responseData.resultCode === ResultCodes.Success) {
+                if (userId) {
+                    dispatch(getUserProfile(userId))
+                }
+            } else {
+                const message = responseData.messages.length > 0 ? responseData.messages[0] : 'Some error';
+                dispatch(stopSubmit('edit-profile', {_error: message}))
+                return Promise.reject(message)
             }
-        } else {
-            const message = responseData.messages.length > 0 ? responseData.messages[0] : 'Some error';
-            dispatch(stopSubmit('edit-profile', {_error: message}))
-            return Promise.reject(message)
+        } catch (error) {
+            console.log(error)
         }
     }

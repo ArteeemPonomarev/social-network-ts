@@ -97,18 +97,22 @@ export const requestUsers = (page: number, pageSize: number): AppThunk<Promise<v
     dispatch(toggleIsFetching(true));
     dispatch(setCurrentPage(page));
 
-    const response = await usersAPI.getUsers(page, pageSize)
+    try {
+        const response = await usersAPI.getUsers(page, pageSize)
 
-    dispatch(toggleIsFetching(false))
-    dispatch(setTotalUsersCount(response.totalCount))
-    dispatch(setUsers(response.items))
+        dispatch(toggleIsFetching(false))
+        dispatch(setTotalUsersCount(response.totalCount))
+        dispatch(setUsers(response.items))
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const _followUnfollowFlow = async (dispatch: Dispatch,
-                                         userId: number,
-                                         apiMethod: any,
-                                         actionCreator: (userID: number) => ReturnType<typeof follow>
-                                             | ReturnType<typeof unfollow>
+                                          userId: number,
+                                          apiMethod: any,
+                                          actionCreator: (userID: number) => ReturnType<typeof follow>
+                                              | ReturnType<typeof unfollow>
 ) => {
     dispatch(toggleFollowingProgress(true, userId));
     const response = await apiMethod(userId);
@@ -120,11 +124,11 @@ export const _followUnfollowFlow = async (dispatch: Dispatch,
 }
 
 export const followUser = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
-    await _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), follow)
+    _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), follow)
 }
 
 export const unfollowUser = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
-    await _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollow)
+    _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollow)
 }
 
 //Action type

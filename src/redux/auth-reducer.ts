@@ -48,40 +48,56 @@ export const setCaptchaUrl = (captchaUrl: string) => {
 
 //Thunks
 export const authMe = (): AppThunk<Promise<void>> => async (dispatch) => {
-    const autMeData = await authApi.authMe()
+    try {
+        const autMeData = await authApi.authMe()
 
-    if (autMeData.resultCode === ResultCodes.Success) {
-        let {id, login, email} = autMeData.data;
-        dispatch(setAuthUserData(id, email, login, true));
+        if (autMeData.resultCode === ResultCodes.Success) {
+            let {id, login, email} = autMeData.data;
+            dispatch(setAuthUserData(id, email, login, true));
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
 export const login = (email: string, password: string, rememberMe = false, captcha: string | null = null):
     AppThunk<Promise<void>> => async (dispatch) => {
-    const loginData = await authApi.login(email, password, rememberMe, captcha)
+    try {
+        const loginData = await authApi.login(email, password, rememberMe, captcha)
 
-    if (loginData.resultCode === ResultCodes.Success) {
-        dispatch(authMe())
-    } else if (loginData.resultCode === ResultCodes.CaptchaIsRequired) {
-        dispatch(getCaptchaUrl())
-    } else {
-        const message = loginData.messages.length > 0 ? loginData.messages[0] : 'Some error';
-        dispatch(stopSubmit('login', {_error: message}))
+        if (loginData.resultCode === ResultCodes.Success) {
+            dispatch(authMe())
+        } else if (loginData.resultCode === ResultCodes.CaptchaIsRequired) {
+            dispatch(getCaptchaUrl())
+        } else {
+            const message = loginData.messages.length > 0 ? loginData.messages[0] : 'Some error';
+            dispatch(stopSubmit('login', {_error: message}))
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
 export const getCaptchaUrl = (): AppThunk<Promise<void>> =>
     async (dispatch) => {
-        const {url} = await securityAPI.getCaptchaUrl();
-        dispatch(setCaptchaUrl(url))
+        try {
+            const {url} = await securityAPI.getCaptchaUrl();
+            dispatch(setCaptchaUrl(url))
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
 export const logout = (): AppThunk<Promise<void>> => async (dispatch) => {
-    const response = await authApi.logout()
+    try {
+        const response = await authApi.logout()
 
-    if (response.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, null, false))
+        if (response.resultCode === ResultCodes.Success) {
+            dispatch(setAuthUserData(null, null, null, false))
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
