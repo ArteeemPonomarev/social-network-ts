@@ -21,9 +21,17 @@ const App = () => {
 
     const initialized = useSelector<AppStateType, boolean>(state => state.app.initialized)
     const dispatch = useDispatch();
-
+    const catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+        alert(promiseRejectionEvent)
+    }
+    
     useEffect(() => {
-        dispatch(initializeApp())
+        dispatch(initializeApp());
+        window.addEventListener("unhandledrejection", catchAllUnhandledErrors);
+
+        return () => {
+            window.removeEventListener("unhandledrejection", catchAllUnhandledErrors)
+        }
     }, [dispatch])
 
     if (!initialized) {

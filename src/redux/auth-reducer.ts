@@ -11,10 +11,10 @@ const initialState = {
     captchaUrl: null as null | string
 };
 
-type InitialAuthState = typeof initialState
+type InitialAuthStateType = typeof initialState;
 
 
-export const authReducer = (state: InitialAuthState = initialState, action: AuthActionsTypes): InitialAuthState => {
+export const authReducer = (state: InitialAuthStateType = initialState, action: AuthActionsTypes): InitialAuthStateType => {
     switch (action.type) {
         case 'social-network/auth/SET-USER_DATA':
             return {

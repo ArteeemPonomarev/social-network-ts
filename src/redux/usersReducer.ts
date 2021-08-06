@@ -25,7 +25,7 @@ const initialState = {
     totalUsersCount: 21,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Array<number>
+    followingInProgress: [] as Array<number>, //array of users ids
 };
 
 type initialStateType = typeof initialState;
@@ -74,59 +74,25 @@ export const usersReducer = (state: initialStateType = initialState, action: Use
     }
 };
 
-
-export const follow = (id: number) => {
-    return {
-        type: 'social-network/users/FOLLOW',
-        id
-    } as const;
-};
-
-export const unfollow = (id: number) => {
-    return {
-        type: 'social-network/users/UNFOLLOW',
-        id
-    } as const;
-};
-
-export const setUsers = (users: Array<UserType>) => {
-    return {
-        type: 'social-network/users/SET-USERS',
-        users
-    } as const;
-};
-
+//Action creators
+export const follow = (id: number) => ({type: 'social-network/users/FOLLOW', id} as const);
+export const unfollow = (id: number) => ({type: 'social-network/users/UNFOLLOW', id} as const);
+export const setUsers = (users: Array<UserType>) => ({type: 'social-network/users/SET-USERS',users} as const);
 export const setCurrentPage = (currentPage: number) => {
-    return {
-        type: 'social-network/users/SET_CURRENT_PAGE',
-        currentPage
-    } as const;
-}
-
+    return {type: 'social-network/users/SET_CURRENT_PAGE', currentPage} as const
+};
 export const setTotalUsersCount = (totalCount: number) => {
-    return {
-        type: 'social-network/users/SET_TOTAL_USERS_COUNT',
-        totalCount
-    } as const;
-}
-
+    return {type: 'social-network/users/SET_TOTAL_USERS_COUNT', totalCount} as const
+};
 export const toggleIsFetching = (isFetching: boolean) => {
-    return {
-        type: 'social-network/users/TOGGLE_IS_FETCHING',
-        isFetching
-    } as const;
-}
-
+    return {type: 'social-network/users/TOGGLE_IS_FETCHING', isFetching} as const
+};
 export const toggleFollowingProgress = (isFetching: boolean, userId: number) => {
-    return {
-        type: 'social-network/users/TOGGLE_IS_FOLLOWING_PROGRESS',
-        userId,
-        isFetching
-    } as const;
-}
+    return {type: 'social-network/users/TOGGLE_IS_FOLLOWING_PROGRESS', userId, isFetching} as const
+};
 
 
-
+//Thunk creators
 export const requestUsers = (page: number, pageSize: number): AppThunk => async (dispatch) => {
     dispatch(toggleIsFetching(true));
     dispatch(setCurrentPage(page));
@@ -156,6 +122,7 @@ export const unfollowUser = (userId: number): AppThunk => async (dispatch) => {
     followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollow)
 }
 
+//Action type
 export type UsersActionTypes = ReturnType<typeof follow>
     | ReturnType<typeof follow>
     | ReturnType<typeof unfollow>

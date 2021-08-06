@@ -23,7 +23,6 @@ type MapStatePropsType = {
     isAuth: boolean
     authorizedUserId: string | null
 }
-
 type MapDispatchPropsType = {
     getUserProfile: (userId: number) => void
     getUserStatus: (userId: number) => void
@@ -34,13 +33,12 @@ type MapDispatchPropsType = {
 type PathParamsType = {
     userId: string
 }
-
 export type ProfileContainerPropsType = MapStatePropsType
     & MapDispatchPropsType
     & RouteComponentProps<PathParamsType>;
 
-class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
+class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     refreshProfile() {
         let userId = +this.props.match.params.userId;
 

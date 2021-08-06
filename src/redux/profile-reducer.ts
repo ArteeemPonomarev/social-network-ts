@@ -46,10 +46,10 @@ let initialState = {
     status: null as string | null
 };
 
-export type ProfilePageType = typeof initialState;
+export type InitialProfileStateType = typeof initialState;
 
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ProfileActionsType): ProfilePageType => {
+export const profileReducer = (state: InitialProfileStateType = initialState, action: ProfileActionsType): InitialProfileStateType => {
     switch (action.type) {
         case 'DELETE_POST':
             return {...state, posts: state.posts.filter(p => p.id !== action.id)}

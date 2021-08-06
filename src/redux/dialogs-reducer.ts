@@ -14,9 +14,9 @@ const initialState = {
     ] as Array<MessageContentType>,
 };
 
-export type DialogsPageType = typeof initialState;
+export type InitialDialogsStateType = typeof initialState;
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: DialogsActionsTypes): DialogsPageType => {
+export const dialogsReducer = (state: InitialDialogsStateType = initialState, action: DialogsActionsTypes): InitialDialogsStateType => {
     switch (action.type) {
         case 'social-network/dialogs/ADD-DIALOG-MESSAGE':
             const newDialogMessage = {

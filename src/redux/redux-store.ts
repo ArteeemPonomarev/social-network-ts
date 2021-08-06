@@ -17,7 +17,7 @@ let rootReducer = combineReducers({
     usersPage: usersReducer,
     auth: authReducer,
     form: formReducer,
-    app: appReducer
+    app: appReducer,
 });
 
 //@ts-ignore
@@ -26,9 +26,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 export type StoreType = typeof store;
-
 type RootReducerType = typeof rootReducer;
-export type AppStateType = ReturnType<RootReducerType>
+export type AppStateType = ReturnType<RootReducerType>;
 
 
 export type ActionsTypes =  UsersActionTypes
@@ -42,5 +41,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, 
 
 //@ts-ignore
 window.store = store
+
 export default store;
 

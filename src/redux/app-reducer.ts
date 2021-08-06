@@ -2,16 +2,13 @@ import {AppThunk} from './redux-store';
 import {authMe} from './auth-reducer';
 
 
-export type AppDataType = {
-    initialized: boolean
-};
-
-const initialState: AppDataType = {
+const initialState = {
     initialized: false
 };
 
+type InitialAppStateType = typeof initialState;
 
-export const appReducer = (state: AppDataType = initialState, action: AppActionsTypes): AppDataType => {
+export const appReducer = (state: InitialAppStateType = initialState, action: AppActionsTypes): InitialAppStateType => {
     switch (action.type) {
         case 'social-network/app/INITIALIZED-SUCCESS':
             return {
@@ -24,15 +21,11 @@ export const appReducer = (state: AppDataType = initialState, action: AppActions
 };
 
 //Action Creators
-export const initializedSuccess = () => {
-    return {
-        type: 'social-network/app/INITIALIZED-SUCCESS'
-    } as const
-}
-export type AppActionsTypes = ReturnType<typeof initializedSuccess>
+export const initializedSuccess = () => ({type: 'social-network/app/INITIALIZED-SUCCESS'} as const)
+
+export type AppActionsTypes = ReturnType<typeof initializedSuccess>;
 
 //Thunks
-
 export const initializeApp = (): AppThunk  => (dispatch) => {
     const promise = dispatch(authMe());
 

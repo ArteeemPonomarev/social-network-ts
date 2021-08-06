@@ -1,15 +1,15 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import style from './Dialogs.module.css';
 import {DialogItem} from './DialogItem/DialogItem';
 import {Message} from './Message/Message';
-import {DialogsPageType} from '../../redux/dialogs-reducer';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {Textarea} from '../common/FormsControls/FormsControls';
 import {maxLength, required} from '../../utils/validators/validators';
+import {InitialDialogsStateType} from "../../redux/dialogs-reducer";
 
 
 type DialogsPropsType = {
-    dialogsPage: DialogsPageType
+    dialogsPage: InitialDialogsStateType
     addMessage: (newMessageBody: string) => void
     isAuth: boolean
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    addMessageAC, DialogsPageType,
+    addMessageAC, InitialDialogsStateType,
 } from '../../redux/dialogs-reducer';
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
@@ -9,7 +9,7 @@ import {compose, Dispatch} from 'redux';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 
 type MapStatePropsType = {
-    dialogsPage: DialogsPageType
+    dialogsPage: InitialDialogsStateType
     isAuth: boolean
 }
 

@@ -17,7 +17,6 @@ type UsersPropsType = {
 }
 
 const Users: React.FC<UsersPropsType> = (props) => {
-
     return (
         <div>
             <Paginator currentPage={props.currentPage}
