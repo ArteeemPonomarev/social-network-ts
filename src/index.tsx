@@ -6,7 +6,9 @@ import {SocialNetworkApp} from './App';
 
 
 ReactDOM.render(
-    <SocialNetworkApp/>,
+    <React.StrictMode>
+        <SocialNetworkApp/>
+    </React.StrictMode>,
     document.getElementById('root')
 );
 
