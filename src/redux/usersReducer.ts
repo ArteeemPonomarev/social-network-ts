@@ -77,7 +77,7 @@ export const usersReducer = (state: initialStateType = initialState, action: Use
 //Action creators
 export const follow = (id: number) => ({type: 'social-network/users/FOLLOW', id} as const);
 export const unfollow = (id: number) => ({type: 'social-network/users/UNFOLLOW', id} as const);
-export const setUsers = (users: Array<UserType>) => ({type: 'social-network/users/SET-USERS',users} as const);
+export const setUsers = (users: Array<UserType>) => ({type: 'social-network/users/SET-USERS', users} as const);
 export const setCurrentPage = (currentPage: number) => {
     return {type: 'social-network/users/SET_CURRENT_PAGE', currentPage} as const
 };
@@ -93,7 +93,7 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
 
 
 //Thunk creators
-export const requestUsers = (page: number, pageSize: number): AppThunk => async (dispatch) => {
+export const requestUsers = (page: number, pageSize: number): AppThunk<Promise<void>> => async (dispatch) => {
     dispatch(toggleIsFetching(true));
     dispatch(setCurrentPage(page));
 
@@ -104,7 +104,12 @@ export const requestUsers = (page: number, pageSize: number): AppThunk => async 
     dispatch(setUsers(response.items))
 }
 
-export const followUnfollowFlow = async (dispatch: Dispatch, userId: number, apiMethod: any, actionCreator: any) => {
+export const _followUnfollowFlow = async (dispatch: Dispatch,
+                                         userId: number,
+                                         apiMethod: any,
+                                         actionCreator: (userID: number) => ReturnType<typeof follow>
+                                             | ReturnType<typeof unfollow>
+) => {
     dispatch(toggleFollowingProgress(true, userId));
     const response = await apiMethod(userId);
 
@@ -114,12 +119,12 @@ export const followUnfollowFlow = async (dispatch: Dispatch, userId: number, api
     dispatch(toggleFollowingProgress(false, userId))
 }
 
-export const followUser = (userId: number): AppThunk => async (dispatch) => {
-    followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), follow)
+export const followUser = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
+    await _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), follow)
 }
 
-export const unfollowUser = (userId: number): AppThunk => async (dispatch) => {
-    followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollow)
+export const unfollowUser = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
+    await _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollow)
 }
 
 //Action type

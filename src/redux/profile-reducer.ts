@@ -127,17 +127,17 @@ export type ProfileActionsType = ReturnType<typeof setUserStatus>
     | ReturnType<typeof savePhotoSuccess>
 
 //Thunks
-export const getUserProfile = (userId: string): AppThunk => async (dispatch) => {
+export const getUserProfile = (userId: string): AppThunk<Promise<void>> => async (dispatch) => {
     const response = await profileAPI.getUserProfile(userId)
     dispatch(setUserProfile(response))
 }
 
-export const getUserStatus = (userId: number): AppThunk => async (dispatch) => {
+export const getUserStatus = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
     const response = await profileAPI.getUserStatus(userId)
     dispatch(setUserStatus(response.data))
 }
 
-export const updateUserStatus = (status: string): AppThunk => async (dispatch) => {
+export const updateUserStatus = (status: string): AppThunk<Promise<void>> => async (dispatch) => {
     const response = await profileAPI.updateStatus(status)
 
     if (response.data.resultCode === 0) {
