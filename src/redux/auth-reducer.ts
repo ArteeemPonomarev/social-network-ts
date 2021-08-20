@@ -1,6 +1,8 @@
 import {AppThunk} from './redux-store';
-import {authApi, ResultCodes, securityAPI} from '../api/api';
+import {ResultCodes} from '../api/api';
 import {stopSubmit} from 'redux-form';
+import {authApi} from "../api/auth-api";
+import {securityAPI} from "../api/security-api";
 
 
 const initialState = {

@@ -1,7 +1,8 @@
 import {AppStateType, AppThunk} from './redux-store';
-import {profileAPI, ResultCodes} from '../api/api';
+import {ResultCodes} from '../api/api';
 import {ProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileDataForm";
 import {stopSubmit} from "redux-form";
+import {profileAPI} from "../api/profile-api";
 
 
 export type PostsContentType = {

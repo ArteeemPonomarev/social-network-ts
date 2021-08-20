@@ -1,7 +1,8 @@
 import {AppThunk, InferActionsTypes} from './redux-store';
-import {ResultCodes, usersAPI} from '../api/api';
+import {ResultCodes} from '../api/api';
 import {Dispatch} from 'redux';
 import {updateObjectInArray} from '../utils/object-helpers';
+import { usersAPI } from '../api/users-api';
 
 
 type PhotosType = {
