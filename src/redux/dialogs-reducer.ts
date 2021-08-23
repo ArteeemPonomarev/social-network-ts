@@ -1,3 +1,5 @@
+import {BaseThunkType, InferActionsTypes} from "./redux-store";
+
 const initialState = {
     dialogs: [
         {id: 1, name: 'Artem'},
@@ -14,7 +16,6 @@ const initialState = {
     ] as Array<MessageContentType>,
 };
 
-export type InitialDialogsStateType = typeof initialState;
 
 export const dialogsReducer = (state: InitialDialogsStateType = initialState, action: DialogsActionsTypes): InitialDialogsStateType => {
     switch (action.type) {
@@ -30,23 +31,19 @@ export const dialogsReducer = (state: InitialDialogsStateType = initialState, ac
 };
 
 //action creators
-export const addMessageAC = (newMessageBody: string) => {
-    return {
-        type: 'social-network/dialogs/ADD-DIALOG-MESSAGE',
-        newMessageBody
-    } as const;
-};
-
+export const dialogsActions = {
+    addMessage: (newMessageBody: string) => ({type: 'social-network/dialogs/ADD-DIALOG-MESSAGE', newMessageBody} as const),
+}
 
 //types
 type DialogContentType = {
     id: number
     name: string
 };
-
 type MessageContentType = {
     id: number
     message: string
 };
-
-export type DialogsActionsTypes =  ReturnType<typeof addMessageAC>
+export type InitialDialogsStateType = typeof initialState;
+type DialogsActionsTypes =  InferActionsTypes<typeof dialogsActions>;
+//type ThunkType = BaseThunkType<DialogsActionsTypes>

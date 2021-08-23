@@ -21,7 +21,7 @@ type MapStatePropsType = {
     profile: ProfileType | null
     status: string | null
     isAuth: boolean
-    authorizedUserId: string | null
+    authorizedUserId: number | null
 }
 type MapDispatchPropsType = {
     getUserProfile: (userId: number) => void

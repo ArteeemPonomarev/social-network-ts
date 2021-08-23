@@ -1,7 +1,7 @@
-import {AppStateType, AppThunk, InferActionsTypes} from './redux-store';
+import {AppStateType, BaseThunkType, InferActionsTypes} from './redux-store';
 import {ResultCodes} from '../api/api';
 import {ProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileDataForm";
-import {stopSubmit} from "redux-form";
+import {FormAction, stopSubmit} from "redux-form";
 import {profileAPI} from "../api/profile-api";
 
 
@@ -9,8 +9,7 @@ export type PostsContentType = {
     id: number
     message: string
     likesCount: number
-};
-
+}
 type ContactsType = {
     github: string
     vk: string
@@ -25,7 +24,6 @@ type PhotosType = {
     small: string | null
     large: string | null
 }
-
 export type ProfileType = {
     aboutMe: string
     userId: number
@@ -37,7 +35,7 @@ export type ProfileType = {
 }
 
 
-let initialState = {
+const initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
         {id: 2, message: 'It is my first post', likesCount: 11},
@@ -46,8 +44,6 @@ let initialState = {
     profile: null as ProfileType | null,
     status: null as string | null
 };
-
-export type InitialProfileStateType = typeof initialState;
 
 
 export const profileReducer = (state: InitialProfileStateType = initialState, action: ProfileActionsType): InitialProfileStateType => {
@@ -95,11 +91,11 @@ export const profileActions = {
 }
 
 
-export type ProfileActionsType = InferActionsTypes<typeof profileActions>
+
 
 
 //Thunks
-export const getUserProfile = (userId: string): AppThunk<Promise<void>> => async (dispatch) => {
+export const getUserProfile = (userId: number): ThunkType => async (dispatch) => {
     try {
         const response = await profileAPI.getUserProfile(userId)
         dispatch(profileActions.setUserProfile(response))
@@ -108,7 +104,7 @@ export const getUserProfile = (userId: string): AppThunk<Promise<void>> => async
     }
 }
 
-export const getUserStatus = (userId: number): AppThunk<Promise<void>> => async (dispatch) => {
+export const getUserStatus = (userId: number): ThunkType => async (dispatch) => {
     try {
         const userStatus = await profileAPI.getUserStatus(userId)
         dispatch(profileActions.setUserStatus(userStatus))
@@ -117,7 +113,7 @@ export const getUserStatus = (userId: number): AppThunk<Promise<void>> => async 
     }
 }
 
-export const updateUserStatus = (status: string): AppThunk<Promise<void>> => async (dispatch) => {
+export const updateUserStatus = (status: string): ThunkType => async (dispatch) => {
     try {
         const responseData = await profileAPI.updateStatus(status)
 
@@ -129,7 +125,7 @@ export const updateUserStatus = (status: string): AppThunk<Promise<void>> => asy
     }
 }
 
-export const savePhoto = (file: File): AppThunk => async (dispatch) => {
+export const savePhoto = (file: File): ThunkType => async (dispatch) => {
     try {
         const responseData = await profileAPI.savePhoto(file)
 
@@ -141,7 +137,7 @@ export const savePhoto = (file: File): AppThunk => async (dispatch) => {
     }
 }
 
-export const saveProfile = (formData: ProfileFormDataType): AppThunk =>
+export const saveProfile = (formData: ProfileFormDataType): ThunkType =>
     async (dispatch, getState: () => AppStateType) => {
         const userId = getState().auth.userId
         try {
@@ -159,3 +155,9 @@ export const saveProfile = (formData: ProfileFormDataType): AppThunk =>
             console.log(error)
         }
     }
+
+//types
+export type InitialProfileStateType = typeof initialState;
+export type ProfileActionsType = InferActionsTypes<typeof profileActions>;
+type ThunkType = BaseThunkType<ProfileActionsType | FormAction>;
+

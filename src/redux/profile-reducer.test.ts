@@ -1,4 +1,4 @@
-import {addPostAC, deletePostAC, PostsContentType, profileReducer, ProfileType} from './profile-reducer';
+import {PostsContentType, profileActions, profileReducer, ProfileType} from './profile-reducer';
 
 
     let state = {
@@ -13,7 +13,7 @@ import {addPostAC, deletePostAC, PostsContentType, profileReducer, ProfileType} 
 
 it ('length of posts should be correct', () => {
     //1. start data
-    let action = addPostAC('test post')
+    let action = profileActions.addPostAC('test post')
 
     //2.action
     let newState = profileReducer(state, action);
@@ -24,7 +24,7 @@ it ('length of posts should be correct', () => {
 
 it ('message of new post should be correct', () => {
     //1. start data
-    let action = addPostAC('test post')
+    let action = profileActions.addPostAC('test post')
 
     //2.action
     let newState = profileReducer(state, action);
@@ -35,7 +35,7 @@ it ('message of new post should be correct', () => {
 
 it ('after deleting length of messages should be decremented', () => {
     //1. start data
-    let action = deletePostAC(1)
+    let action = profileActions.deletePostAC(1)
 
     //2.action
     let newState = profileReducer(state, action);

@@ -3,7 +3,7 @@ import {ProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileData
 import {instance, ResponseType} from "./api";
 
 export const profileAPI = {
-    getUserProfile(userId: string) {
+    getUserProfile(userId: number) {
         return instance.get<ProfileType>(`profile/${userId}`)
             .then(response => response.data)
     },

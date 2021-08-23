@@ -1,28 +1,22 @@
-import {AppThunk} from './redux-store';
+import {BaseThunkType, InferActionsTypes} from './redux-store';
 import {ResultCodes} from '../api/api';
-import {stopSubmit} from 'redux-form';
+import {FormAction, stopSubmit} from 'redux-form';
 import {authApi} from "../api/auth-api";
 import {securityAPI} from "../api/security-api";
 
 
 const initialState = {
-    userId: null as null | string,
+    userId: null as (null | number),
     email: null as null | string,
     login: null as null | string,
     isAuth: false,
     captchaUrl: null as null | string
 };
 
-type InitialAuthStateType = typeof initialState;
 
-
-export const authReducer = (state: InitialAuthStateType = initialState, action: AuthActionsTypes): InitialAuthStateType => {
+export const authReducer = (state: InitialAuthStateType = initialState, action: AuthActionsType): InitialAuthStateType => {
     switch (action.type) {
         case 'social-network/auth/SET-USER_DATA':
-            return {
-                ...state,
-                ...action.payload
-            }
         case 'social-network/auth/GET-CAPTCHA-URL-SUCCESS':
             return {
                 ...state,
@@ -34,7 +28,7 @@ export const authReducer = (state: InitialAuthStateType = initialState, action: 
 };
 
 //Action Creators
-const authActions = {
+export const authActions = {
     setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
         return {
             type: 'social-network/auth/SET-USER_DATA',
@@ -53,7 +47,7 @@ const authActions = {
 
 
 //Thunks
-export const authMe = (): AppThunk<Promise<void>> => async (dispatch) => {
+export const authMe = (): ThunkType => async (dispatch) => {
     try {
         const autMeData = await authApi.authMe()
 
@@ -67,7 +61,7 @@ export const authMe = (): AppThunk<Promise<void>> => async (dispatch) => {
 }
 
 export const login = (email: string, password: string, rememberMe = false, captcha: string | null = null):
-    AppThunk<Promise<void>> => async (dispatch) => {
+    ThunkType => async (dispatch) => {
     try {
         const loginData = await authApi.login(email, password, rememberMe, captcha)
 
@@ -84,7 +78,7 @@ export const login = (email: string, password: string, rememberMe = false, captc
     }
 }
 
-export const getCaptchaUrl = (): AppThunk<Promise<void>> =>
+export const getCaptchaUrl = (): ThunkType =>
     async (dispatch) => {
         try {
             const {url} = await securityAPI.getCaptchaUrl();
@@ -95,7 +89,7 @@ export const getCaptchaUrl = (): AppThunk<Promise<void>> =>
     }
 
 
-export const logout = (): AppThunk<Promise<void>> => async (dispatch) => {
+export const logout = (): ThunkType => async (dispatch) => {
     try {
         const response = await authApi.logout()
 
@@ -108,6 +102,6 @@ export const logout = (): AppThunk<Promise<void>> => async (dispatch) => {
 }
 
 //types
-export type AuthActionsTypes = ReturnType<typeof authActions.setAuthUserData>
-    | ReturnType<typeof stopSubmit>
-    | ReturnType<typeof authActions.setCaptchaUrl>
+type InitialAuthStateType = typeof initialState;
+type AuthActionsType = InferActionsTypes<typeof authActions>;
+type ThunkType = BaseThunkType<AuthActionsType | FormAction>
