@@ -48,6 +48,7 @@ export function createField<FormKeysType extends string> (placeholder: string | 
     return (
         <div>
             <Field
+                style={{marginTop: '20px'}}
                 component={component}
                 name={name}
                 validate={validators}
