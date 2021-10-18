@@ -16,6 +16,7 @@ import {
     getTotalUsersCount,
     getUsers
 } from '../../redux/users-selector';
+import {Pagination} from "antd";
 
 export type MapStatePropsType = {
     users: Array<UserType>
@@ -48,13 +49,10 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
         this.props.getUsers(pageNumber, this.props.pageSize);
     }
 
+
     render() {
         return (
             <>
-                {
-                    this.props.isFetching
-                        ? <Preloader/>
-                        : null}
                 <Users
                     users={this.props.users}
                     pageSize={this.props.pageSize}
@@ -64,7 +62,8 @@ class UsersContainerComponent extends React.Component<UsersContainerPropsType> {
                     toggleFollowingProgress={this.props.toggleFollowingProgress}
                     followingInProgress={this.props.followingInProgress}
                     followUser={this.props.followUser}
-                    unfollowUser={this.props.unfollowUser}/>
+                    unfollowUser={this.props.unfollowUser}
+                    isFetching={this.props.isFetching}/>
             </>
         )
     }

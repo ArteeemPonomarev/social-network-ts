@@ -44,25 +44,6 @@ const App = () => {
     const {Content, Footer, Sider} = Layout;
 
     return (
-        // <div>
-        //     <HeaderContainer/>
-        //     <div className="wrapper">
-        //         <Navbar/>
-        //         <div className="wrapperContent">
-        //             <Switch>
-        //                 <Route exact path='/' render={() => <Redirect to='/profile'/>}/>
-        //                 <Route path='/login' render={() => <Login/>}/>
-        //                 <Route path='/dialogs' render={withSuspence(DialogsContainer)}/>
-        //                 <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-        //                 <Route path='/users' render={() => <UsersContainer/>}/>
-        //                 <Route path='/music' render={() => <Music/>}/>
-        //                 <Route path='/news' render={() => <News/>}/>
-        //                 <Route path='/settings' render={() => <Settings/>}/>
-        //                 <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
-        //             </Switch>
-        //         </div>
-        //     </div>
-        // </div>
         <Layout>
             <Header/>
             <Content style={{padding: '0 50px', minHeight: '85vh'}}>
